@@ -1,0 +1,6 @@
+/public
+node_modules
+/.cache
+/build
+.env
+/cypress/downloads/

@@ -1,6 +1,9 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  ignoredRouteFiles: ["**/.*"],
+  ignoredRouteFiles: ["**/.*", "**/*.test.*"],
+  future: {
+    unstable_tailwind: true,
+  },
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
       ? "./server.js"

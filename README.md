@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# Habit Clusters
 
 - [Remix Docs](https://remix.run/docs)
 - [Netlify Functions](https://www.netlify.com/products/functions/)
