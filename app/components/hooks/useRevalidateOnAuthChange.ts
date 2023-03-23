@@ -9,6 +9,7 @@ const useRevalidateOnAuthChange = (
   const fetcher = useFetcher();
 
   useEffect(() => {
+    console.log(serverAccessToken)
     const {
       data: { subscription },
     } = browserClient.auth.onAuthStateChange((event, session) => {

@@ -11,6 +11,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useFetcher,
   useLoaderData,
   useOutletContext,
 } from "@remix-run/react";
@@ -18,13 +19,12 @@ import {
   createBrowserClient,
   SupabaseClient,
 } from "@supabase/auth-helpers-remix";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import stylesheet from "~/globals.css";
 import useRevalidateOnAuthChange from "./components/hooks/useRevalidateOnAuthChange";
 import { createServerClient } from "./utils/server";
 
 export const loader = async ({ request }: LoaderArgs) => {
-  console.log("ISITTHIS?")
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
@@ -49,12 +49,33 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function App() {
   const { env, session } = useLoaderData();
+  const fetcher = useFetcher();
 
   const [browserClient] = useState(() =>
     createBrowserClient(env.SUPABASE_URL!, env.SUPABASE_ANON_KEY!)
   );
 
-  useRevalidateOnAuthChange(browserClient, session);
+  // useRevalidateOnAuthChange(browserClient, session.access_token);
+  const serverAccessToken = session?.access_token;
+
+  useEffect(() => {
+    const {
+      data: { subscription }
+    } = browserClient.auth.onAuthStateChange((event, session) => {
+      if (session?.access_token !== serverAccessToken) {
+        // server and client are out of sync.
+        // Remix recalls active loaders after actions complete
+        fetcher.submit(null, {
+          method: 'post',
+          action: '/handle-supabase-auth'
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [serverAccessToken, browserClient]);
 
   return (
     <html lang="en">
