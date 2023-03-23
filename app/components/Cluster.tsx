@@ -113,7 +113,6 @@ const Cluster: React.FC<Props> = ({
             const {
               name,
               id,
-              created_at,
               is_complete: isHabitComplete,
             } = habit;
             return (

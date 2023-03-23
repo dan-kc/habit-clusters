@@ -40,7 +40,11 @@ export const loader = async ({ request }: LoaderArgs) => {
                 is_complete
             )
         )
-        `),
+        `)
+        .order('created_at', { foreignTable: 'clusters' })
+        .order('name', { foreignTable: 'clusters' })
+        .order('created_at', { foreignTable: 'clusters.habits' })
+        .order('name', { foreignTable: 'clusters.habits' })
     ]);
 
   // Redirect to login page if they aren't signed in.
@@ -65,7 +69,6 @@ export async function action({ request }: ActionArgs) {
   const user = await getUser(serverClient);
   if (user) {
     const { id: user_id } = user;
-    console.log("user id", user_id)
     if (_action === "toggle_is_complete") {
       const { is_complete, habit_id } = values;
       toggleIsComplete(serverClient, is_complete, habit_id, user_id);

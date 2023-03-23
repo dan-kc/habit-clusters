@@ -3,7 +3,7 @@ import {
   Form,
   Link,
   useActionData,
-  useTransition,
+  useNavigation,
 } from "@remix-run/react";
 import { AuthError } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -13,7 +13,6 @@ import InputGroup from "@components/InputGroup";
 import clsx from "clsx";
 import useToastStore from "~/components/hooks/useToastStore";
 import { getFormData } from "~/utils/database";
-import TermsOfServiceDialog from "~/components/TermsOfServiceDialog";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const { serverClient } = createServerClient(request);
@@ -52,7 +51,7 @@ const Index: React.FC = () => {
   // If null, then the user should have successfully recieved their confirmation email.
   const error = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
-  const { state } = useTransition();
+  const { state } = useNavigation()
 
   useEffect(() => {
     if (error === null && state === "idle") {

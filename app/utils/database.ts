@@ -11,11 +11,10 @@ export async function toggleIsComplete(
   userId: FormDataEntryValue
 ) {
   var newToggleValue = isComplete !== "true";
-  const { error } = await serverClient
+   await serverClient
     .from("habits")
     .update({ is_complete: newToggleValue, user_id: userId })
     .eq("id", habitId);
-  console.log("toggle error", error)
 }
 
 export async function deleteCluster(
