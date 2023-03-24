@@ -33,13 +33,11 @@ export const loader = async ({ request }: LoaderArgs) => {
         clusters (
             id,
             name,
-            created_at,
             start_time,
             end_time,
             habits (
                 id,
                 name,
-                created_at,
                 is_complete
             )
         )

@@ -16,7 +16,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
     <section className="flex flex-col gap-2">
       {clusters ? (
         clusters.map((cluster) => {
-          const { id, created_at, name, start_time, end_time, habits } =
+          const { id, name, start_time, end_time, habits } =
             cluster;
           return (
             <Cluster
