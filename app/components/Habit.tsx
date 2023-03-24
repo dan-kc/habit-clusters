@@ -10,7 +10,8 @@ interface Props {
 
 const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
   const fetcher = useFetcher();
-  const data = fetcher.submission?.formData.get("isComplete");
+  const data = fetcher.submission?.formData.get("is_complete");
+  console.log(data)
   const isOptimisticallyComplete =
     (isComplete && data === undefined) ||
     (!isComplete && data === "false");
