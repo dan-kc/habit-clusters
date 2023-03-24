@@ -21,9 +21,7 @@ const LogInForm: React.FC = () => {
 
   const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(
-    null
-  );
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoggingIn, setIsLogginIn] = useState<boolean>(false);
 
   const logIn = async (email: string, password: string) => {
@@ -39,9 +37,7 @@ const LogInForm: React.FC = () => {
     setErrorMessage(null);
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLButtonElement>
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     setIsLogginIn(true);
     e.preventDefault();
     logIn(emailValue, passwordValue);
@@ -58,9 +54,7 @@ const LogInForm: React.FC = () => {
       >
         <div className="flex flex-col gap-2">
           <h1 className="text-4xl font-bold">Login</h1>
-          <p className="text-sm text-grayDark-11">
-            Enter your login details
-          </p>
+          <p className="text-sm text-grayDark-11">Enter your login details</p>
         </div>
 
         <fieldset className="flex flex-col">

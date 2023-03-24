@@ -17,14 +17,17 @@ import {
 } from "~/utils/database";
 import ComingSoonPanel from "~/components/ComingSoonPanel";
 
-interface Props { }
+interface Props {}
 
 export const loader = async ({ request }: LoaderArgs) => {
   const { serverClient, response } = createServerClient(request);
   const [{ error: authError }, { data: data, error: dataError }] =
     await Promise.all([
       serverClient.auth.getUser(),
-      serverClient.from("profiles").select(`
+      serverClient
+        .from("profiles")
+        .select(
+          `
         name,
         premium,
         clusters (
@@ -40,11 +43,12 @@ export const loader = async ({ request }: LoaderArgs) => {
                 is_complete
             )
         )
-        `)
-        .order('created_at', { foreignTable: 'clusters' })
-        .order('name', { foreignTable: 'clusters' })
-        .order('created_at', { foreignTable: 'clusters.habits' })
-        .order('name', { foreignTable: 'clusters.habits' })
+        `
+        )
+        .order("created_at", { foreignTable: "clusters" })
+        .order("name", { foreignTable: "clusters" })
+        .order("created_at", { foreignTable: "clusters.habits" })
+        .order("name", { foreignTable: "clusters.habits" }),
     ]);
 
   // Redirect to login page if they aren't signed in.
@@ -76,11 +80,13 @@ export async function action({ request }: ActionArgs) {
     }
 
     if (_action === "update_cluster") {
-      const { cluster_id, cluster_name, start_time, end_time, is_new } =
-        values;
+      const { cluster_id, cluster_name, start_time, end_time, is_new } = values;
       const { oldHabits, newHabits } = getHabits(formData, cluster_id, user_id);
-      const { keptOldHabits, deletedOldHabits, keptNewHabits } =
-        splitHabits(formData, oldHabits, newHabits);
+      const { keptOldHabits, deletedOldHabits, keptNewHabits } = splitHabits(
+        formData,
+        oldHabits,
+        newHabits
+      );
       if (is_new === "true") {
         await createCluster(
           serverClient,
@@ -157,7 +163,7 @@ function formatHabitArray(
       id: entry,
       name: arr2[index],
       cluster_id,
-      user_id
+      user_id,
     };
   });
 }
@@ -196,7 +202,6 @@ function getHabits(
     newHabitNames,
     clusterId,
     userId
-
   );
   return { oldHabits, newHabits };
 }
@@ -216,9 +221,6 @@ function splitHabits(
     oldHabits,
     isOldHabitDeleted
   );
-  const [keptNewHabits] = splitArrayByIsDeleted(
-    newHabits,
-    isNewHabitDeleted
-  );
+  const [keptNewHabits] = splitArrayByIsDeleted(newHabits, isNewHabitDeleted);
   return { keptOldHabits, deletedOldHabits, keptNewHabits };
 }

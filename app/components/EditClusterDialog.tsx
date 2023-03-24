@@ -34,14 +34,11 @@ const EditClusterDialog: React.FC<Props> = ({
   isNew = false,
 }) => {
   const [nameValue, setNameValue] = useState<string>(name);
-  const [startTimeValue, setStartTimeValue] =
-    useState<string>(startTime);
+  const [startTimeValue, setStartTimeValue] = useState<string>(startTime);
   const [endTimeValue, setEndTimeValue] = useState<string>(endTime);
   const [newHabits, setNewHabits] = useState<HabitType[]>([]);
 
-  const handleAddHabit: React.MouseEventHandler<HTMLButtonElement> = (
-    e
-  ) => {
+  const handleAddHabit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     setNewHabits([
       ...newHabits,
@@ -104,15 +101,11 @@ const EditClusterDialog: React.FC<Props> = ({
             <DialogPrimitive.Title className="text-xl font-semibold">
               {isNew ? (
                 <>
-                  Create{" "}
-                  <span className="text-violetDark-11">
-                    New Cluster
-                  </span>
+                  Create <span className="text-violetDark-11">New Cluster</span>
                 </>
               ) : (
                 <>
-                  Edit{" "}
-                  <span className="text-violetDark-11">Cluster</span>
+                  Edit <span className="text-violetDark-11">Cluster</span>
                 </>
               )}
             </DialogPrimitive.Title>
@@ -127,10 +120,7 @@ const EditClusterDialog: React.FC<Props> = ({
               </fieldset>
 
               <fieldset className="flex flex-col gap-2">
-                <label
-                  htmlFor="cluster_name"
-                  className="text-mauveDark-11"
-                >
+                <label htmlFor="cluster_name" className="text-mauveDark-11">
                   Name
                 </label>
                 <Input
@@ -148,11 +138,7 @@ const EditClusterDialog: React.FC<Props> = ({
                 {habits.map((habit) => {
                   const { id, name } = habit;
                   return (
-                    <EditHabitInput
-                      key={id}
-                      initialValue={name}
-                      id={id}
-                    />
+                    <EditHabitInput key={id} initialValue={name} id={id} />
                   );
                 })}
                 {newHabits.map((habit) => {
@@ -185,9 +171,9 @@ const EditClusterDialog: React.FC<Props> = ({
                     type="time"
                     max={endTimeValue}
                     value={startTimeValue}
-                    onChange={(
-                      e: React.FormEvent<HTMLInputElement>
-                    ) => setStartTimeValue(e.currentTarget.value)}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      setStartTimeValue(e.currentTarget.value)
+                    }
                   />
                   <DividerHorizontalIcon className="self-center text-mauveDark-6" />
                   <Input
@@ -195,9 +181,9 @@ const EditClusterDialog: React.FC<Props> = ({
                     type="time"
                     min={startTimeValue}
                     value={endTimeValue}
-                    onChange={(
-                      e: React.FormEvent<HTMLInputElement>
-                    ) => setEndTimeValue(e.currentTarget.value)}
+                    onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                      setEndTimeValue(e.currentTarget.value)
+                    }
                   />
                 </div>
               </fieldset>

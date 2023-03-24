@@ -1,10 +1,5 @@
 import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
-import {
-  Form,
-  Link,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
 import { AuthError } from "@supabase/supabase-js";
 import { z } from "zod";
 import { createServerClient, getServerSession } from "~/utils/server";
@@ -51,7 +46,7 @@ const Index: React.FC = () => {
   // If null, then the user should have successfully recieved their confirmation email.
   const error = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
-  const { state } = useNavigation()
+  const { state } = useNavigation();
 
   useEffect(() => {
     if (error === null && state === "idle") {
@@ -84,9 +79,7 @@ const Index: React.FC = () => {
             name="email"
             type="email"
             placeholder="Enter your email"
-            errorMessage={
-              error?.email != null ? error.email[0] : null
-            }
+            errorMessage={error?.email != null ? error.email[0] : null}
           />
           <InputGroup
             title="Password"
@@ -94,9 +87,7 @@ const Index: React.FC = () => {
             type="password"
             minLength={6}
             placeholder="•••••••"
-            errorMessage={
-              error?.password != null ? error.password[0] : null
-            }
+            errorMessage={error?.password != null ? error.password[0] : null}
           />
           <InputGroup
             title="Confirm password"
@@ -105,9 +96,7 @@ const Index: React.FC = () => {
             minLength={6}
             placeholder="•••••••"
             errorMessage={
-              error?.confirm_password != null
-                ? error.confirm_password[0]
-                : null
+              error?.confirm_password != null ? error.confirm_password[0] : null
             }
           />
           <div className="flex gap-2">
@@ -166,10 +155,7 @@ const schema = z
       }),
     confirm_password: z.string(),
   })
-  .refine(
-    ({ password, confirm_password }) => password === confirm_password,
-    {
-      path: ["confirm_password"],
-      message: "Passwords must match",
-    }
-  );
+  .refine(({ password, confirm_password }) => password === confirm_password, {
+    path: ["confirm_password"],
+    message: "Passwords must match",
+  });

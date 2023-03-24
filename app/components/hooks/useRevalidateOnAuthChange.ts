@@ -9,7 +9,6 @@ const useRevalidateOnAuthChange = (
   const fetcher = useFetcher();
 
   useEffect(() => {
-    console.log(serverAccessToken)
     const {
       data: { subscription },
     } = browserClient.auth.onAuthStateChange((event, session) => {
@@ -26,7 +25,7 @@ const useRevalidateOnAuthChange = (
     return () => {
       subscription.unsubscribe();
     };
-  }, [serverAccessToken, SupabaseClient, fetcher]);
+  }, [serverAccessToken, SupabaseClient]);
 };
 
 export default useRevalidateOnAuthChange;

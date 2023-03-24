@@ -1,8 +1,4 @@
-import {
-  CheckIcon,
-  ChevronLeftIcon,
-  Pencil2Icon,
-} from "@radix-ui/react-icons";
+import { CheckIcon, ChevronLeftIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useState } from "react";
 import { Habit as HabitType } from "~/dataTypes";
@@ -18,13 +14,7 @@ interface Props {
   habits: HabitType[];
 }
 
-const Cluster: React.FC<Props> = ({
-  id,
-  name,
-  startTime,
-  endTime,
-  habits,
-}) => {
+const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [openSettings, setOpenSettings] = useState<boolean>(false);
 
@@ -41,10 +31,7 @@ const Cluster: React.FC<Props> = ({
   };
   const currentTime = secondsSinceMidnight();
 
-  const clusterAvailibility = getClusterAvailibility(
-    currentTime,
-    timeWindow
-  );
+  const clusterAvailibility = getClusterAvailibility(currentTime, timeWindow);
 
   const active = clusterAvailibility.period === "Within window";
 
@@ -60,14 +47,9 @@ const Cluster: React.FC<Props> = ({
       <div className={clsx(!active && "opacity-50")}>
         <div className={clsx("flex w-full flex-row justify-between")}>
           <div className="flex flex-row gap-2 pl-4">
-            <h2 className="self-center text-xl font-semibold">
-              {name}
-            </h2>
+            <h2 className="self-center text-xl font-semibold">{name}</h2>
             {open ? (
-              <Dialog.Root
-                open={openSettings}
-                onOpenChange={setOpenSettings}
-              >
+              <Dialog.Root open={openSettings} onOpenChange={setOpenSettings}>
                 <Dialog.Trigger asChild>
                   <button>
                     <Pencil2Icon className="h-4 w-4 self-center" />
@@ -110,11 +92,7 @@ const Cluster: React.FC<Props> = ({
       {open && (
         <div className="px-6">
           {habits.map((habit) => {
-            const {
-              name,
-              id,
-              is_complete: isHabitComplete,
-            } = habit;
+            const { name, id, is_complete: isHabitComplete } = habit;
             return (
               <Habit
                 name={name}
@@ -130,9 +108,7 @@ const Cluster: React.FC<Props> = ({
               {removeSeconds(startTime)}
             </span>
             &nbsp; and&nbsp;
-            <span className="text-violetDark-11">
-              {removeSeconds(endTime)}
-            </span>
+            <span className="text-violetDark-11">{removeSeconds(endTime)}</span>
           </p>
         </div>
       )}

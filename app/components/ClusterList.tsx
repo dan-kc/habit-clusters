@@ -32,10 +32,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
       ) : (
         <p> Add your first cluster </p>
       )}
-      <Dialog.Root
-        open={addingCluster}
-        onOpenChange={setAddingCluster}
-      >
+      <Dialog.Root open={addingCluster} onOpenChange={setAddingCluster}>
         <div className="flex justify-end">
           <Dialog.Trigger asChild>
             <button className="flex h-10 w-10 justify-center rounded-full bg-violetDark-3">

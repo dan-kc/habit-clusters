@@ -1,9 +1,4 @@
-import {
-  json,
-  LinksFunction,
-  LoaderArgs,
-  MetaFunction,
-} from "@remix-run/node";
+import { json, LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -21,7 +16,6 @@ import {
 } from "@supabase/auth-helpers-remix";
 import { useEffect, useState } from "react";
 import stylesheet from "~/globals.css";
-import useRevalidateOnAuthChange from "./components/hooks/useRevalidateOnAuthChange";
 import { createServerClient } from "./utils/server";
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -55,19 +49,18 @@ export default function App() {
     createBrowserClient(env.SUPABASE_URL!, env.SUPABASE_ANON_KEY!)
   );
 
-  // useRevalidateOnAuthChange(browserClient, session.access_token);
   const serverAccessToken = session?.access_token;
 
   useEffect(() => {
     const {
-      data: { subscription }
-    } = browserClient.auth.onAuthStateChange((event, session) => {
+      data: { subscription },
+    } = browserClient.auth.onAuthStateChange((_, session) => {
       if (session?.access_token !== serverAccessToken) {
         // server and client are out of sync.
         // Remix recalls active loaders after actions complete
         fetcher.submit(null, {
-          method: 'post',
-          action: '/handle-supabase-auth'
+          method: "post",
+          action: "/handle-supabase-auth",
         });
       }
     });

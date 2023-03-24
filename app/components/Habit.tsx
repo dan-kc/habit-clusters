@@ -10,29 +10,25 @@ interface Props {
 
 const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
   const fetcher = useFetcher();
+  const { state } = fetcher;
   const data = fetcher.submission?.formData.get("is_complete");
-  console.log(data)
-  const isOptimisticallyComplete =
-    (isComplete && data === undefined) ||
-    (!isComplete && data === "false");
+  const isOptimisticallyComplete = getIsOptimallyComplete(
+    data,
+    isComplete,
+    state
+  );
 
   return (
     <fetcher.Form method="post" className="space-y-1">
       <input type="hidden" name="habit_id" value={habitId} />
-      <input
-        type="hidden"
-        name="is_complete"
-        value={isComplete.toString()}
-      />
+      <input type="hidden" name="is_complete" value={isComplete.toString()} />
       <button
         type="submit"
         name="_action"
         value="toggle_is_complete"
         className={clsx(
           "flex flex-row gap-2",
-          isOptimisticallyComplete
-            ? "text-violetDark-11"
-            : "text-mauveDark-12"
+          isOptimisticallyComplete ? "text-violetDark-11" : "text-mauveDark-12"
         )}
       >
         {isOptimisticallyComplete ? (
@@ -47,3 +43,26 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
 };
 
 export default Habit;
+
+function getIsOptimallyComplete(
+  actionData: FormDataEntryValue | null | undefined,
+  isCompleteFromLoader: boolean,
+  fetcherState: "idle" | "submitting" | "loading"
+): boolean {
+  let isOptimisticallyComplete: boolean;
+  switch (fetcherState) {
+    case "idle": {
+      isOptimisticallyComplete = isCompleteFromLoader;
+      break;
+    }
+    case "submitting": {
+      isOptimisticallyComplete = actionData === "false";
+      break;
+    }
+    case "loading": {
+      isOptimisticallyComplete = actionData === "false";
+      break;
+    }
+  }
+  return isOptimisticallyComplete;
+}

@@ -11,7 +11,7 @@ export async function toggleIsComplete(
   userId: FormDataEntryValue
 ) {
   var newToggleValue = isComplete !== "true";
-   await serverClient
+  await serverClient
     .from("habits")
     .update({ is_complete: newToggleValue, user_id: userId })
     .eq("id", habitId);
@@ -21,10 +21,7 @@ export async function deleteCluster(
   serverClient: SupabaseClient<any, "public", any>,
   clusterId: FormDataEntryValue
 ) {
-  await serverClient
-    .from("clusters")
-    .delete()
-    .in("id", [clusterId]);
+  await serverClient.from("clusters").delete().in("id", [clusterId]);
 }
 
 export async function createCluster(

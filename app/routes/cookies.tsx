@@ -36,18 +36,14 @@ const CookiePolicy: React.FC = () => {
           <div className="space-y-2">
             <h1 className="text-4xl font-semibold">We value your privacy</h1>
             <p className="">
-              This Cookie Policy explains how we use cookies and
-              similar technologies to enhance your experience on our
-              website. By using our website, you consent to our use of
-              cookies in accordance with this policy.
+              This Cookie Policy explains how we use cookies and similar
+              technologies to enhance your experience on our website. By using
+              our website, you consent to our use of cookies in accordance with
+              this policy.
             </p>
           </div>
           {blocks.map(({ heading, paragraph }) => (
-            <TextBlock
-              key={heading}
-              heading={heading}
-              paragraph={paragraph}
-            />
+            <TextBlock key={heading} heading={heading} paragraph={paragraph} />
           ))}
         </div>
       </Container>
@@ -62,26 +58,19 @@ interface TextBlockProps {
   paragraph: string;
 }
 
-const TextBlock: React.FC<TextBlockProps> = ({
-  heading,
-  paragraph,
-}) => {
+const TextBlock: React.FC<TextBlockProps> = ({ heading, paragraph }) => {
   return (
     <div className="space-y-2">
       <h2 className="text-2xl font-medium">{heading}</h2>
       <Paragraph text={paragraph} />
-    </div >
+    </div>
   );
 };
 
 interface ParagraphProps {
-  text: string
+  text: string;
 }
 
 const Paragraph: React.FC<ParagraphProps> = ({ text }) => {
-  return (
-    <p className="">
-      {text}
-    </p>
-  )
-}
+  return <p className="">{text}</p>;
+};

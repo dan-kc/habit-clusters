@@ -32,12 +32,7 @@ const InputGroup: React.FC<Props> = ({
           maxLength={maxLength}
           {...rest}
         />
-        <p
-          className={clsx(
-            errorMessage ? "text-redDark-11" : "",
-            "text-xs"
-          )}
-        >
+        <p className={clsx(errorMessage ? "text-redDark-11" : "", "text-xs")}>
           {" "}
           {errorMessage ? errorMessage : <br />}{" "}
         </p>

@@ -27,9 +27,7 @@ export const Toast = () => {
               className="absolute bottom-0 right-0 rounded-lg border border-grayDark-6 bg-grayDark-3 p-4 shadow outline-none"
             >
               <div className="relative flex flex-col items-start gap-3">
-                <T.Title>
-                  You have been sent a confirmation email!
-                </T.Title>
+                <T.Title>You have been sent a confirmation email!</T.Title>
                 <Link
                   to="/login"
                   onClick={() => setOpen(false)}

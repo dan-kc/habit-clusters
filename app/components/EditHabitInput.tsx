@@ -17,9 +17,7 @@ const EditHabitInput: React.FC<Props> = ({
   const [nameValue, setNameValue] = useState<string>(initialValue);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
-  function handleDeleteButtonClick(
-    e: React.FormEvent<HTMLButtonElement>
-  ) {
+  function handleDeleteButtonClick(e: React.FormEvent<HTMLButtonElement>) {
     e.preventDefault();
     setIsDeleted((state) => !state);
   }
