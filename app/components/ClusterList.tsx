@@ -32,14 +32,18 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
         {
           clusters.length === 0 ?
             <Dialog.Trigger asChild>
-              <button className="rounded-md border text-2xl font-semibold border-violetDark-6 bg-violetDark-3 py-10 text-violetDark-11 flex justify-center  text-center">
+              <button
+                data-cy="add_cluster"
+                className="rounded-md border text-2xl font-semibold border-violetDark-6 bg-violetDark-3 py-10 text-violetDark-11 flex justify-center  text-center">
                 Add your first cluster!
               </button>
             </Dialog.Trigger>
             :
             <div className="flex justify-start">
               <Dialog.Trigger asChild>
-                <button className="flex h-10 w-10 justify-center rounded-full bg-violetDark-3">
+                <button
+                  data-cy="add_cluster"
+                  className="flex h-10 w-10 justify-center rounded-full bg-violetDark-3">
                   <PlusIcon className="h-5 w-5 self-center text-violetDark-11" />
                 </button>
               </Dialog.Trigger>

@@ -37,6 +37,7 @@ const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
 
   return (
     <article
+      data-cy="cluster"
       className={clsx(
         "transform rounded-md border duration-300",
         active && isCompleted
@@ -51,7 +52,9 @@ const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
             {open ? (
               <Dialog.Root open={openSettings} onOpenChange={setOpenSettings}>
                 <Dialog.Trigger asChild>
-                  <button>
+                  <button
+                    data-cy="edit_cluster"
+                  >
                     <Pencil2Icon className="h-4 w-4 self-center" />
                   </button>
                 </Dialog.Trigger>
@@ -67,6 +70,7 @@ const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
             ) : null}
           </div>
           <button
+            data-cy="open_cluster"
             className="relative w-full pt-6 pb-5 pr-4"
             onClick={() => setOpen((state) => !state)}
           >
@@ -102,8 +106,10 @@ const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
               />
             );
           })}
-          <p className="flex flex-row justify-end py-2 text-sm">
-            Availible between&nbsp;
+          <p className="flex flex-row justify-end py-2 text-sm"
+            data-cy="availability_window"
+          >
+            Available between&nbsp;
             <span className="text-violetDark-11">
               {removeSeconds(startTime)}
             </span>

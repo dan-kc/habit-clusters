@@ -15,7 +15,11 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
   const isOptimisticallyComplete = getIsOptimallyComplete(data, isComplete, state);
 
   return (
-    <fetcher.Form method="post" className="space-y-1">
+    <fetcher.Form
+      method="post"
+      className="space-y-1"
+      data-cy="habit"
+    >
       <input type="hidden" name="habit_id" value={habitId} />
       <input type="hidden" name="is_complete" value={isComplete.toString()} />
       <button

@@ -60,6 +60,7 @@ const LogInForm: React.FC = () => {
             title="Email"
             name="email"
             type="email"
+            required
             disabled={isLoggingIn}
             placeholder="Enter your email"
             value={emailValue}
@@ -71,6 +72,7 @@ const LogInForm: React.FC = () => {
             title="Password"
             name="password"
             type="password"
+            required
             minLength={6}
             disabled={isLoggingIn}
             placeholder="•••••••"

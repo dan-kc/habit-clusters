@@ -46,7 +46,7 @@ const EditHabitInput: React.FC<Props> = ({
       {!isDeleted && (
         <button
           className="absolute right-5 top-1/2 -translate-y-1/2"
-          name={isNew ? "new_habit_name" : "habit_name"}
+          data-cy="delete_habit"
           onClick={handleDeleteButtonClick}
         >
           <TrashIcon className="h-4 w-4" />

@@ -89,6 +89,7 @@ const EditClusterDialog: React.FC<Props> = ({
           leaveTo="opacity-0 scale-95"
         >
           <DialogPrimitive.Content
+            data-cy="cluster_dialog"
             forceMount
             className={clsx(
               "fixed z-50",
@@ -155,6 +156,7 @@ const EditClusterDialog: React.FC<Props> = ({
 
                 <button
                   className="flex h-10 w-10 justify-center rounded-full bg-violetDark-3"
+                  data-cy="add_habit"
                   onClick={handleAddHabit}
                 >
                   <PlusIcon className="h-5 w-5 self-center text-violetDark-11" />

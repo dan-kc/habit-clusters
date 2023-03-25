@@ -79,6 +79,7 @@ const Index: React.FC = () => {
             title="Email"
             name="email"
             type="email"
+            required
             placeholder="Enter your email"
             errorMessage={error?.email != null ? error.email[0] : null}
           />
@@ -86,6 +87,7 @@ const Index: React.FC = () => {
             title="Password"
             name="password"
             type="password"
+            required
             minLength={6}
             placeholder="•••••••"
             errorMessage={error?.password != null ? error.password[0] : null}
@@ -94,6 +96,7 @@ const Index: React.FC = () => {
             title="Confirm password"
             name="confirm_password"
             type="password"
+            required
             minLength={6}
             placeholder="•••••••"
             errorMessage={

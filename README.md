@@ -6,4 +6,5 @@ Based on my personal habit workflow.
 
 ## Todo
 
+- Add Cypress
 - Migrate from supabase to Go server
