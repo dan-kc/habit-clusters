@@ -51,7 +51,7 @@ const TermsOfServiceDialog: React.FC<Props> = ({}) => {
                 We value your privacy
               </Dialog.Title>
               <div className="space-y-6">
-                <p className="">
+                <p>
                   Habit Clusters only uses cookies for authentication.
                   <br />
                   Nothing else.

@@ -4,14 +4,12 @@ import clsx from "clsx";
 import { useRef, useState } from "react";
 import InputGroup from "@components/InputGroup";
 import { useBrowserClient } from "~/root";
-import { createServerClient } from "~/utils/server";
+import { createServerClient, getServerSession } from "~/utils/server";
 
 export const loader = async ({ request }: LoaderArgs) => {
+  // Redirect if already logged in
   const { serverClient } = createServerClient(request);
-  const {
-    data: { session },
-  } = await serverClient.auth.getSession();
-
+  const session = await getServerSession(serverClient);
   if (session) throw redirect("/dashboard");
   return null;
 };
@@ -104,7 +102,7 @@ const LogInForm: React.FC = () => {
           </Link>
         </p>
         {errorMessage ? (
-          <p className="" data-cy="errorMessage">
+          <p data-cy="errorMessage">
             Oops! {errorMessage}. Have you confirmed your email yet?
           </p>
         ) : null}

@@ -3,7 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useFetcher } from "@remix-run/react";
 import { clsx } from "clsx";
 import React, { Fragment, useEffect, useState } from "react";
-import { Habit as HabitType } from "~/dataTypes";
+import { Habit as HabitType } from "@utils/types";
 import EditHabitInput from "./EditHabitInput";
 import { v4 as uuidv4 } from "uuid";
 import Input from "./Input";

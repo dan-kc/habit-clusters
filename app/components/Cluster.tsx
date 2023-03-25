@@ -1,7 +1,7 @@
 import { CheckIcon, ChevronLeftIcon, Pencil2Icon } from "@radix-ui/react-icons";
 import clsx from "clsx";
 import { useState } from "react";
-import { Habit as HabitType } from "~/dataTypes";
+import { Habit as HabitType } from "@utils/types";
 import * as Dialog from "@radix-ui/react-dialog";
 import EditClusterDialog from "./EditClusterDialog";
 import Habit from "./Habit";

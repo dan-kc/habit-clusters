@@ -10,9 +10,9 @@ import useToastStore from "~/components/hooks/useToastStore";
 import { getFormData } from "~/utils/database";
 
 export const loader = async ({ request }: LoaderArgs) => {
+  // Redirect if already logged in
   const { serverClient } = createServerClient(request);
   const session = await getServerSession(serverClient);
-
   if (session) throw redirect("/dashboard");
   return null;
 };
@@ -20,30 +20,31 @@ export const loader = async ({ request }: LoaderArgs) => {
 export async function action({
   request,
 }: ActionArgs): Promise<ValidationError | AuthError | null> {
+
+  // Get and parse form data
   const formData = await getFormData(request);
   const formPayload = Object.fromEntries(formData);
-
   const parsedResult = schema.safeParse(formPayload);
 
-  // VALIDATION ERROR
+  // Failed validation
   if (!parsedResult.success) {
     return parsedResult.error.flatten().fieldErrors;
   }
 
+  // Log in 
   const { serverClient } = createServerClient(request);
   const { error } = await serverClient.auth.signUp({
     email: parsedResult.data.email,
     password: parsedResult.data.password,
   });
-  // SUPABASE ERROR
   // NOTE: If a user already exists with the same email, this will not return an error.
   if (error) return error;
 
+  // Successful login
   return null;
 }
 
 const Index: React.FC = () => {
-  // If null, then the user should have successfully recieved their confirmation email.
   const error = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
   const { state } = useNavigation();

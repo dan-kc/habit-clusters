@@ -1,7 +1,7 @@
 import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
 import Header from "@components/Header";
 import { useLoaderData } from "@remix-run/react";
-import { Profile } from "~/dataTypes";
+import { Profile } from "@utils/types";
 import Container from "~/components/Container";
 import ClusterList from "~/components/ClusterList";
 import { createServerClient, getUser } from "~/utils/server";
@@ -17,9 +17,10 @@ import {
 } from "~/utils/database";
 import ComingSoonPanel from "~/components/ComingSoonPanel";
 
-interface Props {}
+interface Props { }
 
 export const loader = async ({ request }: LoaderArgs) => {
+  // Get user info
   const { serverClient, response } = createServerClient(request);
   const [{ error: authError }, { data: data, error: dataError }] =
     await Promise.all([
@@ -65,10 +66,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export async function action({ request }: ActionArgs) {
+  // Get form data
   const formData = await getFormData(request);
   const { _action, ...values } = Object.fromEntries(formData);
+
   const { serverClient } = createServerClient(request);
   const user = await getUser(serverClient);
+
   if (user) {
     const { id: user_id } = user;
     if (_action === "toggle_is_complete") {

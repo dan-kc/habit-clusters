@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { Cluster as ClusterType } from "~/dataTypes";
+import { Cluster as ClusterType } from "@utils/types";
 import Cluster from "./Cluster";
 import EditClusterDialog from "./EditClusterDialog";
 import { v4 as uuidv4 } from "uuid";
@@ -29,8 +29,6 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
         );
       })}
       <Dialog.Root open={addingCluster} onOpenChange={setAddingCluster}>
-
-
         {
           clusters.length === 0 ?
             <Dialog.Trigger asChild>
@@ -46,14 +44,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
                 </button>
               </Dialog.Trigger>
             </div>
-
         }
-
-
-
-
-
-
         <EditClusterDialog
           isNew
           id={uuidv4()}

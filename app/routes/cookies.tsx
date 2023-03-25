@@ -35,7 +35,7 @@ const CookiePolicy: React.FC = () => {
         <div className="space-y-10">
           <div className="space-y-2">
             <h1 className="text-4xl font-semibold">We value your privacy</h1>
-            <p className="">
+            <p>
               This Cookie Policy explains how we use cookies and similar
               technologies to enhance your experience on our website. By using
               our website, you consent to our use of cookies in accordance with
@@ -72,5 +72,5 @@ interface ParagraphProps {
 }
 
 const Paragraph: React.FC<ParagraphProps> = ({ text }) => {
-  return <p className="">{text}</p>;
+  return <p>{text}</p>;
 };

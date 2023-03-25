@@ -42,21 +42,21 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
+  // Get enviroment variables from server
   const { env, session } = useLoaderData();
-  const fetcher = useFetcher();
-
   const [browserClient] = useState(() =>
     createBrowserClient(env.SUPABASE_URL!, env.SUPABASE_ANON_KEY!)
   );
-
   const serverAccessToken = session?.access_token;
+
+  const fetcher = useFetcher();
 
   useEffect(() => {
     const {
       data: { subscription },
     } = browserClient.auth.onAuthStateChange((_, session) => {
       if (session?.access_token !== serverAccessToken) {
-        // server and client are out of sync.
+        // server and client are out of sync
         // Remix recalls active loaders after actions complete
         fetcher.submit(null, {
           method: "post",
@@ -103,7 +103,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
       </head>
       <body>
         <>
-          Root error page sorry sumn happened
+          Something went wrong. Refresh to try again.
           <Scripts />
         </>
       </body>
