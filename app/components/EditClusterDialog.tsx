@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useFetcher } from "@remix-run/react";
 import { clsx } from "clsx";
 import React, { Fragment, useEffect, useState } from "react";
@@ -63,7 +63,7 @@ const EditClusterDialog: React.FC<Props> = ({
   const fetcher = useFetcher();
 
   return (
-    <DialogPrimitive.Portal forceMount>
+    <Dialog.Portal forceMount>
       <Transition.Root show={open}>
         <Transition.Child
           as={Fragment}
@@ -74,7 +74,7 @@ const EditClusterDialog: React.FC<Props> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <DialogPrimitive.Overlay
+          <Dialog.Overlay
             forceMount
             className="fixed inset-0 z-20 bg-black/50"
           />
@@ -88,7 +88,7 @@ const EditClusterDialog: React.FC<Props> = ({
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-95"
         >
-          <DialogPrimitive.Content
+          <Dialog.Content
             data-cy="cluster_dialog"
             forceMount
             className={clsx(
@@ -99,7 +99,7 @@ const EditClusterDialog: React.FC<Props> = ({
               "focus:outline-none focus-visible:ring focus-visible:ring-mauveDark-6 focus-visible:ring-opacity-75"
             )}
           >
-            <DialogPrimitive.Title className="text-xl font-semibold">
+            <Dialog.Title className="text-xl font-semibold">
               {isNew ? (
                 <>
                   Create <span className="text-violetDark-11">New Cluster</span>
@@ -109,7 +109,7 @@ const EditClusterDialog: React.FC<Props> = ({
                   Edit <span className="text-violetDark-11">Cluster</span>
                 </>
               )}
-            </DialogPrimitive.Title>
+            </Dialog.Title>
             <fetcher.Form method="post" className="space-y-6">
               <fieldset>
                 <input type="hidden" name="cluster_id" value={id} />
@@ -191,7 +191,7 @@ const EditClusterDialog: React.FC<Props> = ({
               </fieldset>
 
               <div className="flex justify-between gap-2">
-                <DialogPrimitive.Close asChild>
+                <Dialog.Close asChild>
                   <Button
                     type="submit"
                     name="_action"
@@ -200,15 +200,15 @@ const EditClusterDialog: React.FC<Props> = ({
                   >
                     Save
                   </Button>
-                </DialogPrimitive.Close>
+                </Dialog.Close>
                 {isNew ? (
-                  <DialogPrimitive.Close asChild>
+                  <Dialog.Close asChild>
                     <Button color="mauve" className="w-full">
                       Cancel
                     </Button>
-                  </DialogPrimitive.Close>
+                  </Dialog.Close>
                 ) : (
-                  <DialogPrimitive.Close asChild>
+                  <Dialog.Close asChild>
                     <Button
                       type="submit"
                       color="red"
@@ -218,22 +218,22 @@ const EditClusterDialog: React.FC<Props> = ({
                     >
                       Delete
                     </Button>
-                  </DialogPrimitive.Close>
+                  </Dialog.Close>
                 )}
               </div>
             </fetcher.Form>
-            <DialogPrimitive.Close
+            <Dialog.Close
               className={clsx(
                 "absolute top-6 right-3.5 inline-flex items-center justify-center rounded-full p-1",
                 "focus:outline-none focus-visible:ring focus-visible:ring-violetDark-6 focus-visible:ring-opacity-75"
               )}
             >
               <Cross1Icon className="h-5 w-5 text-mauveDark-12" />
-            </DialogPrimitive.Close>
-          </DialogPrimitive.Content>
+            </Dialog.Close>
+          </Dialog.Content>
         </Transition.Child>
       </Transition.Root>
-    </DialogPrimitive.Portal>
+    </Dialog.Portal>
   );
 };
 
