@@ -69,7 +69,6 @@ export async function action({ request }: ActionArgs) {
   // Get form data
   const formData = await getFormData(request);
   const { _action, ...values } = Object.fromEntries(formData);
-
   const { serverClient } = createServerClient(request);
   const user = await getUser(serverClient);
 
