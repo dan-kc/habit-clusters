@@ -24,14 +24,14 @@ export const Toast = () => {
               initial={{ x: 400 }}
               animate={{ x: 0 }}
               exit={{ x: 400 }}
-              className="absolute bottom-0 right-0 rounded-lg border border-grayDark-6 bg-grayDark-3 p-4 shadow outline-none"
+              className="absolute bottom-0 right-0 rounded-lg border border-mauveDark-6 bg-mauveDark-3 p-4 shadow outline-none"
             >
               <div className="relative flex flex-col items-start gap-3">
                 <T.Title>You have been sent a confirmation email!</T.Title>
                 <Link
-                  to="/login"
+                  to="/"
                   onClick={() => setOpen(false)}
-                  className="w-full rounded-lg border border-grayDark-6 bg-grayDark-3 py-2 text-center text-lg text-grayDark-12 hover:border-grayDark-7 hover:bg-grayDark-4"
+                  className="w-full rounded-lg border border-mauveDark-6 bg-mauveDark-3 py-2 text-center text-lg text-mauveDark-12 hover:border-mauveDark-7 hover:bg-mauveDark-4"
                 >
                   Log in
                 </Link>

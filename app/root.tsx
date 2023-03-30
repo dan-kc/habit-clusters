@@ -76,7 +76,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-grayDark-1 font-sans text-grayDark-12 dark:bg-grayDark-1 dark:text-grayDark-12">
+      <body className="bg-mauveDark-1 font-sans text-mauveDark-12 dark:bg-mauveDark-1 dark:text-mauveDark-12">
         <Outlet context={browserClient} />
         <ScrollRestoration />
         <Scripts />

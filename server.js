@@ -9,6 +9,7 @@ import * as build from "@remix-run/dev/server-build";
  *  - `netlifyGraphSignature`: a signature for subscription events. Will be
  *    present if a secret is set.
  */
+
 function getLoadContext(event, context) {
   let rawAuthorizationString;
   let netlifyGraphToken;

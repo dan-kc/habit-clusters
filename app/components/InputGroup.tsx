@@ -25,7 +25,7 @@ const InputGroup: React.FC<Props> = ({
         <input
           className={clsx(
             errorMessage ? "border-redDark-6" : "border-mauveDark-6",
-            "rounded-lg border bg-grayDark-1 p-2 px-5 text-sm placeholder:text-mauveDark-11 focus:outline-none focus-visible:border-transparent focus-visible:ring focus-visible:ring-violetDark-6 focus-visible:ring-opacity-75"
+            "rounded-lg border bg-mauveDark-1 p-2 px-5 text-sm placeholder:text-mauveDark-11 focus:outline-none focus-visible:border-transparent focus-visible:ring focus-visible:ring-violetDark-6 focus-visible:ring-opacity-75"
           )}
           name={name}
           minLength={minLength}

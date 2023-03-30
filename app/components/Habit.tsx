@@ -13,6 +13,7 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
   const { state } = fetcher;
   const formData = fetcher.submission?.formData.get("is_complete");
   const isOptimisticallyComplete = getIsOptimallyComplete(formData, isComplete, state);
+  //TODO: Remove cursor when cursor hoevers ovber text
 
   return (
     <fetcher.Form

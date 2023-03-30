@@ -51,7 +51,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     ]);
 
   // Redirect to login page if they aren't signed in.
-  if (authError) throw redirect("/login");
+  if (authError) throw redirect("");
 
   let errorMessage: null | string = null;
 
@@ -77,8 +77,7 @@ export async function action({ request }: ActionArgs) {
     if (_action === "toggle_is_complete") {
       const { is_complete, habit_id } = values;
       toggleIsComplete(serverClient, is_complete, habit_id, user_id);
-      //HACK: Reduces the chance of stale data being fetched from loader
-      await new Promise(resolve => setTimeout(resolve, 500))
+      await new Promise(resolve => setTimeout(resolve, 500)) //HACK: Reduces the chance of stale data being fetched from loader
       return null;
     }
 

@@ -5,7 +5,7 @@ const invalidPassword = "gdbf"
 describe("Login route", () => {
     beforeEach(() => {
         // Arrange
-        cy.visit("/login")
+        cy.visit("")
     })
 
     it("should show input fields", () => {

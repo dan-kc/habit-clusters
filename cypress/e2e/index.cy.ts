@@ -16,9 +16,9 @@ describe("Index route", () => {
             .get('input[name="confirm_password"]').should("exist")
     })
 
-    it("links to /login", () => {
+    it("links to ", () => {
         // Assert
-        cy.get('a[href="/login"]').should("exist")
+        cy.get('a[href=""]').should("exist")
     })
 
     it("requires email", () => {
