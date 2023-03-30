@@ -77,6 +77,8 @@ export async function action({ request }: ActionArgs) {
     if (_action === "toggle_is_complete") {
       const { is_complete, habit_id } = values;
       toggleIsComplete(serverClient, is_complete, habit_id, user_id);
+      //HACK: Reduces the chance of stale data being fetched from loader
+      await new Promise(resolve => setTimeout(resolve, 500))
       return null;
     }
 
