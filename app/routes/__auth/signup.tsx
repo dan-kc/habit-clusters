@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { z } from "zod";
 import AuthForm from "~/components/AuthForm";
 import useToastStore from "~/components/hooks/useToastStore";
-import OAuthPanel from "~/components/OAuthPanel";
 import { getFormData } from "~/utils/database";
 import { createServerClient, getServerSession } from "~/utils/server";
 
@@ -49,7 +48,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 
-const Index: React.FC = () => {
+const Signup: React.FC = () => {
   const error = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
   const { state } = useNavigation();
@@ -136,7 +135,7 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default Signup;
 
 interface ValidationError {
   email?: string[] | undefined;

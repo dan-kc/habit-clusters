@@ -51,7 +51,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     ]);
 
   // Redirect to login page if they aren't signed in.
-  if (authError) throw redirect("");
+  if (authError) throw redirect("/");
 
   let errorMessage: null | string = null;
 
