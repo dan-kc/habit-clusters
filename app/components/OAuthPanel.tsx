@@ -10,6 +10,9 @@ const OAuthPanel = () => {
   async function loginWithGithub() {
     const { error } = await browserClient.auth.signInWithOAuth({
       provider: 'github',
+      options: {
+        redirectTo: 'https://habitclusters.com/dashboard'
+      }
     });
     if (error !== null) {
       setErrorMessage(error.message);
