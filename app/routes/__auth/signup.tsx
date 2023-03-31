@@ -49,16 +49,16 @@ export async function action({ request }: ActionArgs) {
 
 
 const Signup: React.FC = () => {
-  const error = useActionData();
+  const errors = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
   const { state } = useNavigation();
   const isSubmitting = state === ("submitting" || "loading")
 
   useEffect(() => {
-    if (error === null && state === "idle") {
+    if (errors === null && state === "idle") {
       setOpen(true);
     }
-  }, [error, state]);
+  }, [errors, state]);
 
 
   return (
@@ -76,7 +76,7 @@ const Signup: React.FC = () => {
             type="email"
             required
             placeholder="Enter your email"
-            errorMessage={error?.email != null ? error.email[0] : null}
+            errorMessage={errors?.email != null ? errors.email[0] : null}
           />
           <InputGroup
             title="Password"
@@ -85,7 +85,7 @@ const Signup: React.FC = () => {
             required
             minLength={6}
             placeholder="•••••••"
-            errorMessage={error?.password != null ? error.password[0] : null}
+            errorMessage={errors?.password != null ? errors.password[0] : null}
           />
           <InputGroup
             title="Confirm password"
@@ -94,9 +94,7 @@ const Signup: React.FC = () => {
             required
             minLength={6}
             placeholder="•••••••"
-            errorMessage={
-              error?.confirm_password != null ? error.confirm_password[0] : null
-            }
+            errorMessage={errors?.confirm_password != null ? errors.confirm_password[0] : null}
           />
           <div className="flex gap-2" >
             <input
@@ -130,7 +128,7 @@ const Signup: React.FC = () => {
           </Link>
         </p>
       </AuthForm>
-      {error?.message ? <p>Oops! {error.message}</p> : null}
+      {errors?.message ? <p>Oops! {errors.message}</p> : null}
     </>
   );
 };

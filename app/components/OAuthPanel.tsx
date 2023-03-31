@@ -11,7 +11,7 @@ const OAuthPanel = () => {
     const { error } = await browserClient.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: 'https://habitclusters.com/dashboard'
+        redirectTo: 'https://habitclusters.com/dashboard/'
       }
     });
     if (error !== null) {
