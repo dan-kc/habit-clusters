@@ -21,45 +21,50 @@ export async function action({ request }: ActionArgs) {
   // Get and parse form data
   const formData = await getFormData(request);
   const formPayload = Object.fromEntries(formData);
+  const email = formData.get("email")
+  const password = formData.get("password")
 
   // Validate data
   const parsedValidationResults = schema.safeParse(formPayload);
 
   // Handle failed validation
   if (!parsedValidationResults.success) {
+    console.log("validationError")
     return validationError(parsedValidationResults)
   }
 
-  // Sign up
-  const { serverClient } = createServerClient(request);
-  const { error } = await serverClient.auth.signUp({
-    email: parsedValidationResults.data.email,
-    password: parsedValidationResults.data.password,
-  })
+  else {
+    // Sign up
+    const { serverClient } = createServerClient(request);
 
-  // Handle failed sign up
-  // NOTE: If a user already exists with the same email, this will not return an error.
-  if (error) {
-    return json({ error: error?.message }, { status: 400 })
+    const { error } = await serverClient.auth.signUp({
+      email: parsedValidationResults.data.email,
+      password: parsedValidationResults.data.password,
+    })
+
+    // Handle failed sign up
+    // NOTE: If a user already exists with the same email, this will not return an error.
+    if (error) {
+      return json({ error: error?.message }, { status: 400 })
+    }
   }
-
   // Successful sign up
   return null
 }
 
 
 const Signup: React.FC = () => {
-  const errors = useActionData();
   const setOpen = useToastStore((state) => state.setOpen);
   const { state } = useNavigation();
   const isSubmitting = state === ("submitting" || "loading")
+  const errors = useActionData();
+  console.log(errors)
 
   useEffect(() => {
     if (errors === null && state === "idle") {
       setOpen(true);
     }
   }, [errors, state]);
-
 
   return (
     <>
@@ -76,7 +81,7 @@ const Signup: React.FC = () => {
             type="email"
             required
             placeholder="Enter your email"
-            errorMessage={errors?.email != null ? errors.email[0] : null}
+            errorMessage={errors ? errors.errors.email : null}
           />
           <InputGroup
             title="Password"
@@ -85,7 +90,7 @@ const Signup: React.FC = () => {
             required
             minLength={6}
             placeholder="•••••••"
-            errorMessage={errors?.password != null ? errors.password[0] : null}
+            errorMessage={errors ? errors.errors.password : null}
           />
           <InputGroup
             title="Confirm password"
@@ -94,7 +99,7 @@ const Signup: React.FC = () => {
             required
             minLength={6}
             placeholder="•••••••"
-            errorMessage={errors?.confirm_password != null ? errors.confirm_password[0] : null}
+            errorMessage={errors ? errors.errors.confirm_password : null}
           />
           <div className="flex gap-2" >
             <input
