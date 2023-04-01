@@ -8,4 +8,7 @@ Minimum viable product - work in progress.
 
 ## Todo
 
-- Migrate from supabase to DynamoDB
+- Add tests for github login
+- Add optimistic ui for cluster highlight when all habits are complete
+- Add typesafety
+- Refactor Dashboard Loader
