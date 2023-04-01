@@ -35,6 +35,8 @@ const OAuthPanel = () => {
       </div>
       <button
         onClick={handleSubmit}
+        name="oauth-type"
+        value="github"
         className="rounded-lg py-2 w-full text-lg text-mauve-12 hover:bg-mauve-4 bg-mauve-3 flex items-center justify-center"
       >
         <GitHubLogoIcon className='mr-4 h-7 w-7' />

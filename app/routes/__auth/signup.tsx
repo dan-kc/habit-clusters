@@ -21,8 +21,6 @@ export async function action({ request }: ActionArgs) {
   // Get and parse form data
   const formData = await getFormData(request);
   const formPayload = Object.fromEntries(formData);
-  const email = formData.get("email")
-  const password = formData.get("password")
 
   // Validate data
   const parsedValidationResults = schema.safeParse(formPayload);
@@ -36,7 +34,6 @@ export async function action({ request }: ActionArgs) {
   else {
     // Sign up
     const { serverClient } = createServerClient(request);
-
     const { error } = await serverClient.auth.signUp({
       email: parsedValidationResults.data.email,
       password: parsedValidationResults.data.password,
@@ -58,7 +55,6 @@ const Signup: React.FC = () => {
   const { state } = useNavigation();
   const isSubmitting = state === ("submitting" || "loading")
   const errors = useActionData();
-  console.log(errors)
 
   useEffect(() => {
     if (errors === null && state === "idle") {
@@ -133,7 +129,9 @@ const Signup: React.FC = () => {
           </Link>
         </p>
       </AuthForm>
-      {errors?.message ? <p>Oops! {errors.message}</p> : null}
+      <div>
+        {errors?.message ? <p>Oops! {errors.message}</p> : null}
+      </div>
     </>
   );
 };

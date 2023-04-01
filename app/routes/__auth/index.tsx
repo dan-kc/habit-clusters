@@ -100,7 +100,6 @@ const Index: React.FC = () => {
             Oops! {errorMessage}. Have you confirmed your email yet?
           </p>
         ) : null}
-        <OAuthPanel />
       </AuthForm>
     </>
   );
