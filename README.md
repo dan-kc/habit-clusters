@@ -11,4 +11,4 @@ Minimum viable product - work in progress.
 - Add tests for github login
 - Add optimistic ui for cluster highlight when all habits are complete
 - Add typesafety
-- Refactor Dashboard Loader
+- Remove is_complete and swap it for a date array

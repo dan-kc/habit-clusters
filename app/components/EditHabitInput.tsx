@@ -26,7 +26,7 @@ const EditHabitInput: React.FC<Props> = ({
     <div className={clsx("relative", isDeleted && "hidden")}>
       <input
         type="hidden"
-        name={isNew ? "new_habit_id" : "habit_id"}
+        name={isNew ? "new_habit_id" : "old_habit_id"}
         value={id}
       />
       <input
@@ -35,7 +35,7 @@ const EditHabitInput: React.FC<Props> = ({
         value={isDeleted.toString()}
       />
       <Input
-        name={isNew ? "new_habit_name" : "habit_name"}
+        name={isNew ? "new_habit_name" : "old_habit_name"}
         className="w-full"
         type={isDeleted ? "hidden" : "text"}
         value={nameValue}

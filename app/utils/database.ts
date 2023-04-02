@@ -1,3 +1,4 @@
+import { redirect } from "@remix-run/node";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { FormDataHabit } from "~/routes/dashboard";
 
@@ -81,5 +82,40 @@ export async function createHabits(
   serverClient: SupabaseClient<any, "public", any>,
   newHabits: FormDataHabit[]
 ) {
-  await serverClient.from("habits").insert(newHabits);
+
+  const { error } = await serverClient.from("habits").insert(newHabits);
+  console.log(error)
+  return error
 }
+
+export async function getUserData(serverClient: SupabaseClient<any, "public", any>) {
+  const { data, error } =
+    await serverClient
+      .from("profiles")
+      .select(
+        `
+        name,
+        premium,
+        clusters (
+            id,
+            name,
+            start_time,
+            end_time,
+            habits (
+                id,
+                name,
+                is_complete
+            )
+        )
+        `
+      )
+      .order("created_at", { foreignTable: "clusters" })
+      .order("name", { foreignTable: "clusters" })
+      .order("created_at", { foreignTable: "clusters.habits" })
+      .order("name", { foreignTable: "clusters.habits" })
+
+  if (error) throw (error)
+
+  return data
+}
+

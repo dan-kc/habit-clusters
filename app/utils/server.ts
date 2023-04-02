@@ -1,3 +1,4 @@
+import { redirect } from "@remix-run/node";
 import {
   createServerClient as _createServerClient,
   SupabaseClient,
@@ -24,8 +25,7 @@ export async function getServerSession(
 export async function getUser(
   serverClient: SupabaseClient<any, "public", any>
 ) {
-  const {
-    data: { user },
-  } = await serverClient.auth.getUser();
+  const { data: { user }, error } = await serverClient.auth.getUser();
+  if (error) throw redirect("/");
   return user;
 }

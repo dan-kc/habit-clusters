@@ -1,10 +1,10 @@
-import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
 import Header from "@components/Header";
+import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Profile } from "@utils/types";
-import Container from "~/components/Container";
 import ClusterList from "~/components/ClusterList";
-import { createServerClient, getUser } from "~/utils/server";
+import ComingSoonPanel from "~/components/ComingSoonPanel";
+import Container from "~/components/Container";
 import {
   createCluster,
   createHabits,
@@ -12,122 +12,105 @@ import {
   deleteHabits,
   editClusterInfo,
   getFormData,
+  getUserData,
   renameHabits,
-  toggleIsComplete,
+  toggleIsComplete
 } from "~/utils/database";
-import ComingSoonPanel from "~/components/ComingSoonPanel";
-
-interface Props { }
+import { createServerClient, getUser } from "~/utils/server";
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // Get user info
-  const { serverClient, response } = createServerClient(request);
-  const [{ error: authError }, { data: data, error: dataError }] =
-    await Promise.all([
-      serverClient.auth.getUser(),
-      serverClient
-        .from("profiles")
-        .select(
-          `
-        name,
-        premium,
-        clusters (
-            id,
-            name,
-            start_time,
-            end_time,
-            habits (
-                id,
-                name,
-                is_complete
-            )
-        )
-        `
-        )
-        .order("created_at", { foreignTable: "clusters" })
-        .order("name", { foreignTable: "clusters" })
-        .order("created_at", { foreignTable: "clusters.habits" })
-        .order("name", { foreignTable: "clusters.habits" }),
-    ]);
 
-  // Redirect to login page if they aren't signed in.
-  if (authError) throw redirect("/");
+  const { serverClient } = createServerClient(request);
 
-  let errorMessage: null | string = null;
+  const [_, data] = await Promise.all([
+    getUser(serverClient), // Redirects if not logged in
+    getUserData(serverClient) // Throws if can't get data
+  ]);
 
-  if (dataError)
-    errorMessage = "Could not retrieve data, refresh to try again.";
-
-  return {
-    data,
-    error: errorMessage,
-    headers: response.headers,
-  };
+  return json(data)
 };
 
 export async function action({ request }: ActionArgs) {
   // Get form data
   const formData = await getFormData(request);
   const { _action, ...values } = Object.fromEntries(formData);
+
   const { serverClient } = createServerClient(request);
+
+  // Get user
   const user = await getUser(serverClient);
+  const { id: user_id } = user!;
 
-  if (user) {
-    const { id: user_id } = user;
-    if (_action === "toggle_is_complete") {
-      const { is_complete, habit_id } = values;
-      toggleIsComplete(serverClient, is_complete, habit_id, user_id);
-      await new Promise(resolve => setTimeout(resolve, 500)) //HACK: Reduces the chance of stale data being fetched from loader
-      return null;
-    }
+  if (_action === "toggle_is_complete") {
 
-    if (_action === "update_cluster") {
-      const { cluster_id, cluster_name, start_time, end_time, is_new } = values;
-      const { oldHabits, newHabits } = getHabits(formData, cluster_id, user_id);
-      const { keptOldHabits, deletedOldHabits, keptNewHabits } = splitHabits(
-        formData,
-        oldHabits,
-        newHabits
-      );
-      if (is_new === "true") {
-        await createCluster(
-          serverClient,
-          user_id,
-          cluster_id,
-          cluster_name,
-          start_time,
-          end_time
-        );
-        await createHabits(serverClient, keptNewHabits);
-        return null;
-      }
+    const { is_complete, habit_id } = values;
 
-      Promise.all([
-        await editClusterInfo(
-          serverClient,
-          cluster_id,
-          cluster_name,
-          start_time,
-          end_time
-        ),
-        await renameHabits(serverClient, keptOldHabits),
-        await deleteHabits(serverClient, deletedOldHabits),
-        await createHabits(serverClient, keptNewHabits),
-      ]);
-      return null;
-    }
+    toggleIsComplete(serverClient, is_complete, habit_id, user_id);
+    await new Promise(resolve => setTimeout(resolve, 500)) //HACK: Reduces the chance of stale data being fetched from loader
+  }
+
+  if (_action === "create_cluster") {
+
+    const { cluster_id, cluster_name, start_time, end_time } = values;
+
+    const { oldHabits, newHabits } = getHabits(formData, cluster_id, user_id);
+
+    const { keptNewHabits } = splitHabits(
+      formData,
+      oldHabits,
+      newHabits
+    );
+
+    await createCluster(
+      serverClient,
+      user_id,
+      cluster_id,
+      cluster_name,
+      start_time,
+      end_time
+    );
+
+    await createHabits(serverClient, keptNewHabits);
+  }
+
+  if (_action === "update_cluster") {
+
+    const { cluster_id, cluster_name, start_time, end_time } = values;
+
+    const { oldHabits, newHabits } = getHabits(formData, cluster_id, user_id);
+
+    const { keptOldHabits, deletedOldHabits, keptNewHabits } = splitHabits(
+      formData,
+      oldHabits,
+      newHabits
+    );
+
+    Promise.all([
+      await editClusterInfo(
+        serverClient,
+        cluster_id,
+        cluster_name,
+        start_time,
+        end_time
+      ),
+      await renameHabits(serverClient, keptOldHabits),
+      await deleteHabits(serverClient, deletedOldHabits),
+      await createHabits(serverClient, keptNewHabits),
+    ]);
   }
 
   if (_action === "delete_cluster") {
+
     const { cluster_id } = values;
     deleteCluster(serverClient, cluster_id);
-    return null;
   }
+
   return null;
 }
 
-const Dashboard: React.FC<Props> = () => {
-  const { data } = useLoaderData();
+const Dashboard: React.FC = () => {
+
+  const data = useLoaderData();
   const { clusters } = data[0] as Profile;
 
   return (
@@ -189,9 +172,9 @@ function getHabits(
   clusterId: FormDataEntryValue,
   userId: FormDataEntryValue
 ) {
-  const oldHabitIds = formData.getAll("habit_id");
-  const oldHabitNames = formData.getAll("habit_name");
+  const oldHabitIds = formData.getAll("old_habit_id");
   const newHabitIds = formData.getAll("new_habit_id");
+  const oldHabitNames = formData.getAll("old_habit_name");
   const newHabitNames = formData.getAll("new_habit_name");
   const oldHabits = formatHabitArray(
     oldHabitIds,

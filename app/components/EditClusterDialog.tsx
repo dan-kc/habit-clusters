@@ -113,11 +113,6 @@ const EditClusterDialog: React.FC<Props> = ({
             <fetcher.Form method="post" className="space-y-6">
               <fieldset>
                 <input type="hidden" name="cluster_id" value={id} />
-                <input
-                  type="hidden"
-                  name="is_new"
-                  value={isNew ? "true" : "false"}
-                />
               </fieldset>
 
               <fieldset className="flex flex-col gap-2">
@@ -164,7 +159,6 @@ const EditClusterDialog: React.FC<Props> = ({
               </fieldset>
               <fieldset className="flex flex-col gap-2">
                 <label className="text-mauveDark-11">
-                  {" "}
                   Availibility window{" "}
                 </label>
                 <div className="flex gap-2">
@@ -195,7 +189,7 @@ const EditClusterDialog: React.FC<Props> = ({
                   <Button
                     type="submit"
                     name="_action"
-                    value="update_cluster"
+                    value={isNew ? "create_cluster" : "update_cluster"}
                     className="w-full"
                   >
                     Save
