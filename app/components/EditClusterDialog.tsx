@@ -1,18 +1,14 @@
-import { Transition } from "@headlessui/react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { useFetcher } from "@remix-run/react";
-import { clsx } from "clsx";
-import React, { Fragment, useEffect, useState } from "react";
-import { Habit as HabitType } from "@utils/types";
-import EditHabitInput from "./EditHabitInput";
-import { v4 as uuidv4 } from "uuid";
-import Input from "./Input";
-import {
-  Cross1Icon,
-  DividerHorizontalIcon,
-  PlusIcon,
-} from "@radix-ui/react-icons";
-import Button from "./Button";
+import { Transition } from '@headlessui/react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { useFetcher } from '@remix-run/react';
+import { clsx } from 'clsx';
+import React, { Fragment, useEffect, useState } from 'react';
+import type { Habit as HabitType } from '@utils/types';
+import EditHabitInput from './EditHabitInput';
+import { v4 as uuidv4 } from 'uuid';
+import Input from './Input';
+import { Cross1Icon, DividerHorizontalIcon, PlusIcon } from '@radix-ui/react-icons';
+import Button from './Button';
 
 interface Props {
   id: string;
@@ -44,9 +40,10 @@ const EditClusterDialog: React.FC<Props> = ({
       ...newHabits,
       {
         id: uuidv4(),
-        name: "",
+        name: '',
         is_complete: false,
         cluster_id: id,
+        dates_completed: [],
       },
     ]);
   };
@@ -74,10 +71,7 @@ const EditClusterDialog: React.FC<Props> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Dialog.Overlay
-            forceMount
-            className="fixed inset-0 z-20 bg-black/50"
-          />
+          <Dialog.Overlay forceMount className="fixed inset-0 z-20 bg-black/50" />
         </Transition.Child>
         <Transition.Child
           as={Fragment}
@@ -92,11 +86,11 @@ const EditClusterDialog: React.FC<Props> = ({
             data-cy="cluster_dialog"
             forceMount
             className={clsx(
-              "fixed z-50",
-              "max-h-[70%] w-[95vw] max-w-md overflow-y-auto rounded-lg px-4 py-6 md:w-full",
-              "top-[20%] left-[50%] -translate-x-[50%]",
-              "bg-mauveDark-3",
-              "focus:outline-none focus-visible:ring focus-visible:ring-mauveDark-6 focus-visible:ring-opacity-75"
+              'fixed z-50',
+              'max-h-[70%] w-[95vw] max-w-md overflow-y-auto rounded-lg px-4 py-6 md:w-full',
+              'top-[20%] left-[50%] -translate-x-[50%]',
+              'bg-mauveDark-3',
+              'focus:outline-none focus-visible:ring focus-visible:ring-mauveDark-6 focus-visible:ring-opacity-75'
             )}
           >
             <Dialog.Title className="text-xl font-semibold">
@@ -110,7 +104,11 @@ const EditClusterDialog: React.FC<Props> = ({
                 </>
               )}
             </Dialog.Title>
-            <fetcher.Form method="post" className="space-y-6">
+            <fetcher.Form
+              method="post"
+              className="space-y-6"
+              action={isNew ? '/handle-create-cluster' : '/dashboard/handle-edit-cluster'}
+            >
               <fieldset>
                 <input type="hidden" name="cluster_id" value={id} />
               </fieldset>
@@ -133,20 +131,11 @@ const EditClusterDialog: React.FC<Props> = ({
                 <label className="text-mauveDark-11"> Habits </label>
                 {habits.map((habit) => {
                   const { id, name } = habit;
-                  return (
-                    <EditHabitInput key={id} initialValue={name} id={id} />
-                  );
+                  return <EditHabitInput key={id} initialValue={name} id={id} />;
                 })}
                 {newHabits.map((habit) => {
                   const { id, name } = habit;
-                  return (
-                    <EditHabitInput
-                      isNew
-                      key={id}
-                      initialValue={name}
-                      id={id}
-                    />
-                  );
+                  return <EditHabitInput isNew key={id} initialValue={name} id={id} />;
                 })}
 
                 <button
@@ -158,9 +147,7 @@ const EditClusterDialog: React.FC<Props> = ({
                 </button>
               </fieldset>
               <fieldset className="flex flex-col gap-2">
-                <label className="text-mauveDark-11">
-                  Availibility window{" "}
-                </label>
+                <label className="text-mauveDark-11">Availibility window </label>
                 <div className="flex gap-2">
                   <Input
                     name="start_time"
@@ -189,7 +176,7 @@ const EditClusterDialog: React.FC<Props> = ({
                   <Button
                     type="submit"
                     name="_action"
-                    value={isNew ? "create_cluster" : "update_cluster"}
+                    value={isNew ? 'create_cluster' : 'update_cluster'}
                     className="w-full"
                   >
                     Save
@@ -218,8 +205,8 @@ const EditClusterDialog: React.FC<Props> = ({
             </fetcher.Form>
             <Dialog.Close
               className={clsx(
-                "absolute top-6 right-3.5 inline-flex items-center justify-center rounded-full p-1",
-                "focus:outline-none focus-visible:ring focus-visible:ring-violetDark-6 focus-visible:ring-opacity-75"
+                'absolute top-6 right-3.5 inline-flex items-center justify-center rounded-full p-1',
+                'focus:outline-none focus-visible:ring focus-visible:ring-violetDark-6 focus-visible:ring-opacity-75'
               )}
             >
               <Cross1Icon className="h-5 w-5 text-mauveDark-12" />

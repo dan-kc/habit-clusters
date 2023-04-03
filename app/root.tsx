@@ -1,4 +1,5 @@
-import { json, LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -9,14 +10,12 @@ import {
   useFetcher,
   useLoaderData,
   useOutletContext,
-} from "@remix-run/react";
-import {
-  createBrowserClient,
-  SupabaseClient,
-} from "@supabase/auth-helpers-remix";
-import { useEffect, useState } from "react";
-import stylesheet from "~/globals.css";
-import { createServerClient } from "./utils/server";
+} from '@remix-run/react';
+import type { SupabaseClient } from '@supabase/auth-helpers-remix';
+import { createBrowserClient } from '@supabase/auth-helpers-remix';
+import { useEffect, useState } from 'react';
+import stylesheet from '~/globals.css';
+import { createServerClient } from './utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const env = {
@@ -59,8 +58,8 @@ export default function App() {
         // server and client are out of sync
         // Remix recalls active loaders after actions complete
         fetcher.submit(null, {
-          method: "post",
-          action: "/handle-supabase-auth",
+          method: 'post',
+          action: '/handle-supabase-auth',
         });
       }
     });
@@ -86,7 +85,7 @@ export default function App() {
   );
 }
 
-type ContextType = SupabaseClient<any, "public", any>;
+type ContextType = SupabaseClient<any, 'public', any>;
 
 export function useBrowserClient() {
   return useOutletContext<ContextType>();
@@ -112,11 +111,9 @@ export function ErrorBoundary({ error }: { error: Error }) {
 }
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Habit Clusters",
-  viewport: "width=device-width,initial-scale=1",
+  charset: 'utf-8',
+  title: 'Habit Clusters',
+  viewport: 'width=device-width,initial-scale=1',
 });
 
-export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];

@@ -17,4 +17,10 @@ export interface Habit {
   cluster_id: string;
   name: string;
   is_complete?: boolean;
+  dates_completed: CompletedDate[]
+}
+
+export interface CompletedDate {
+  habit_id: string;
+  date: string
 }

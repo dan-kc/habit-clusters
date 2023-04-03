@@ -1,26 +1,26 @@
-import { LoaderArgs, redirect } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import clsx from "clsx";
-import { useState } from "react";
-import InputGroup from "@components/InputGroup";
-import { useBrowserClient } from "~/root";
-import { createServerClient, getServerSession } from "~/utils/server";
-import AuthForm from "~/components/AuthForm";
-import OAuthPanel from "~/components/OAuthPanel";
+import type { LoaderArgs } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import { Link } from '@remix-run/react';
+import clsx from 'clsx';
+import { useState } from 'react';
+import InputGroup from '@components/InputGroup';
+import { useBrowserClient } from '~/root';
+import { createServerClient, getServerSession } from '~/utils/supabase.server';
+import AuthForm from '~/components/AuthForm';
 
 export const loader = async ({ request }: LoaderArgs) => {
   // Redirect if already logged in
   const { serverClient } = createServerClient(request);
   const session = await getServerSession(serverClient);
-  if (session) throw redirect("/dashboard");
+  if (session) throw redirect('/dashboard');
   return null;
 };
 
 const Index: React.FC = () => {
   const browserClient = useBrowserClient();
 
-  const [emailValue, setEmailValue] = useState<string>("");
-  const [passwordValue, setPasswordValue] = useState<string>("");
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [passwordValue, setPasswordValue] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoggingIn, setIsLogginIn] = useState<boolean>(false);
 
@@ -45,10 +45,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <AuthForm
-        heading="Login"
-        subheading="Enter your login details"
-      >
+      <AuthForm heading="Login" subheading="Enter your login details">
         <fieldset className="flex flex-col">
           <InputGroup
             title="Email"
@@ -78,18 +75,18 @@ const Index: React.FC = () => {
         </fieldset>
         <button
           className={clsx(
-            "bg-mauveDark-3",
-            "rounded-lg py-2 text-lg text-mauveDark-12 hover:bg-mauveDark-4"
+            'bg-mauveDark-3',
+            'rounded-lg py-2 text-lg text-mauveDark-12 hover:bg-mauveDark-4'
           )}
           onClick={handleSubmit}
           data-cy="login"
         >
-          {isLoggingIn ? "Loggin in" : "Log in"}
+          {isLoggingIn ? 'Loggin in' : 'Log in'}
         </button>
         <p className="text-center text-sm text-mauveDark-11">
           <span>Don't have an account yet?</span>
           <Link
-            to={"/signup"}
+            to={'/signup'}
             className="p-2 text-center text-sm font-bold text-mauveDark-12 underline underline-offset-4"
           >
             Sign up

@@ -96,12 +96,13 @@ const Cluster: React.FC<Props> = ({ id, name, startTime, endTime, habits }) => {
       {open && (
         <div className="px-6">
           {habits.map((habit) => {
-            const { name, id, is_complete: isHabitComplete } = habit;
+            const { name, id, is_complete: isHabitComplete, dates_completed } = habit;
             return (
               <Habit
                 name={name}
                 isComplete={isHabitComplete ?? false}
                 habitId={id}
+                datesCompleted={dates_completed}
                 key={id}
               />
             );

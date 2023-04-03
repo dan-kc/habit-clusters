@@ -1,23 +1,23 @@
-import InputGroup from "@components/InputGroup";
-import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
-import { Link, useActionData, useNavigation } from "@remix-run/react";
-import { useEffect } from "react";
-import { z } from "zod";
-import AuthForm from "~/components/AuthForm";
-import useToastStore from "~/components/hooks/useToastStore";
-import { getFormData } from "~/utils/database";
-import { createServerClient, getServerSession } from "~/utils/server";
+import InputGroup from '@components/InputGroup';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Link, useActionData, useNavigation } from '@remix-run/react';
+import { useEffect } from 'react';
+import { z } from 'zod';
+import AuthForm from '~/components/AuthForm';
+import useToastStore from '~/components/hooks/useToastStore';
+import { getFormData } from '~/utils/supabase.server';
+import { createServerClient, getServerSession } from '~/utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
   // Redirect if already logged in
   const { serverClient } = createServerClient(request);
   const session = await getServerSession(serverClient);
-  if (session) throw redirect("/dashboard");
+  if (session) throw redirect('/dashboard');
   return null;
 };
 
 export async function action({ request }: ActionArgs) {
-
   // Get and parse form data
   const formData = await getFormData(request);
   const formPayload = Object.fromEntries(formData);
@@ -27,50 +27,42 @@ export async function action({ request }: ActionArgs) {
 
   // Handle failed validation
   if (!parsedValidationResults.success) {
-    console.log("validationError")
-    return validationError(parsedValidationResults)
-  }
-
-  else {
+    console.log('validationError');
+    return validationError(parsedValidationResults);
+  } else {
     // Sign up
     const { serverClient } = createServerClient(request);
     const { error } = await serverClient.auth.signUp({
       email: parsedValidationResults.data.email,
       password: parsedValidationResults.data.password,
-    })
+    });
 
     // Handle failed sign up
     // NOTE: If a user already exists with the same email, this will not return an error.
     if (error) {
-      return json({ error: error?.message }, { status: 400 })
+      return json({ error: error?.message }, { status: 400 });
     }
   }
   // Successful sign up
-  return null
+  return null;
 }
-
 
 const Signup: React.FC = () => {
   const setOpen = useToastStore((state) => state.setOpen);
   const { state } = useNavigation();
-  const isSubmitting = state === ("submitting" || "loading")
+  const isSubmitting = state === ('submitting' || 'loading');
   const errors = useActionData();
 
   useEffect(() => {
-    if (errors === null && state === "idle") {
+    if (errors === null && state === 'idle') {
       setOpen(true);
     }
-  }, [errors, state]);
+  }, [errors, state, setOpen]);
 
   return (
     <>
-      <AuthForm
-        heading="Welcome"
-        subheading="Enter your details to sign up - it's free!"
-      >
-        <fieldset
-          className="flex flex-col"
-          disabled={isSubmitting}>
+      <AuthForm heading="Welcome" subheading="Enter your details to sign up - it's free!">
+        <fieldset className="flex flex-col" disabled={isSubmitting}>
           <InputGroup
             title="Email"
             name="email"
@@ -97,17 +89,11 @@ const Signup: React.FC = () => {
             placeholder="•••••••"
             errorMessage={errors ? errors.errors.confirm_password : null}
           />
-          <div className="flex gap-2" >
-            <input
-              type="checkbox"
-              required
-            />
+          <div className="flex gap-2">
+            <input type="checkbox" required />
             <p className="text-sm text-mauveDark-11">
-              I have read and agree to the{" "}
-              <Link
-                to="/cookies"
-                className="underline"
-              >
+              I have read and agree to the{' '}
+              <Link to="/cookies" className="underline">
                 Cookie policy
               </Link>
             </p>
@@ -115,7 +101,7 @@ const Signup: React.FC = () => {
         </fieldset>
         <button
           type="submit"
-          className="rounded-lg py-2 text-lg text-mauveDark-12 hover:bg-mauveDark-4 bg-mauveDark-3"
+          className="rounded-lg bg-mauveDark-3 py-2 text-lg text-mauveDark-12 hover:bg-mauveDark-4"
         >
           Sign up
         </button>
@@ -129,9 +115,7 @@ const Signup: React.FC = () => {
           </Link>
         </p>
       </AuthForm>
-      <div>
-        {errors?.message ? <p>Oops! {errors.message}</p> : null}
-      </div>
+      <div>{errors?.message ? <p>Oops! {errors.message}</p> : null}</div>
     </>
   );
 };
@@ -146,18 +130,18 @@ interface ValidationError {
 
 const schema = z
   .object({
-    email: z.string().email({ message: "Invalid email address" }),
+    email: z.string().email({ message: 'Invalid email address' }),
     password: z
       .string()
-      .min(6, { message: "Password must be 6 or more characters" })
+      .min(6, { message: 'Password must be 6 or more characters' })
       .max(30, {
-        message: "Password must be less than 30 characters",
+        message: 'Password must be less than 30 characters',
       }),
     confirm_password: z.string(),
   })
   .refine(({ password, confirm_password }) => password === confirm_password, {
-    path: ["confirm_password"],
-    message: "Passwords must match",
+    path: ['confirm_password'],
+    message: 'Passwords must match',
   });
 
 function formatZodErrors(validationErrors: ValidationError) {
@@ -169,15 +153,17 @@ function formatZodErrors(validationErrors: ValidationError) {
       acc[key as keyof typeof acc] = undefined;
     }
     return acc;
-  }, {} as { email?: string | undefined; password?: string | undefined; confirm_password?: string | undefined; });
+  }, {} as { email?: string | undefined; password?: string | undefined; confirm_password?: string | undefined });
 }
 
-function validationError(parsedValidationResults: z.SafeParseError<{
-  email: string;
-  password: string;
-  confirm_password: string;
-}>) {
+function validationError(
+  parsedValidationResults: z.SafeParseError<{
+    email: string;
+    password: string;
+    confirm_password: string;
+  }>
+) {
   const formErrors = parsedValidationResults.error.flatten().fieldErrors;
-  const formattedErrors = formatZodErrors(formErrors)
-  return json({ errors: formattedErrors }, { status: 400 })
+  const formattedErrors = formatZodErrors(formErrors);
+  return json({ errors: formattedErrors }, { status: 400 });
 }

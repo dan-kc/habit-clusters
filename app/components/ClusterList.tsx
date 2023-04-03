@@ -1,10 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { Cluster as ClusterType } from "@utils/types";
-import Cluster from "./Cluster";
-import EditClusterDialog from "./EditClusterDialog";
 import { v4 as uuidv4 } from "uuid";
 import { PlusIcon } from "@radix-ui/react-icons";
+import Cluster from "./Cluster";
+import EditClusterDialog from "./EditClusterDialog";
 
 interface Props {
   clusters: ClusterType[];
@@ -15,8 +15,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
   return (
     <section className="flex flex-col gap-2">
       {clusters.map((cluster) => {
-        const { id, name, start_time, end_time, habits } =
-          cluster;
+        const { id, name, start_time, end_time, habits } = cluster;
         return (
           <Cluster
             id={id}
