@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { createServerClient as _createServerClient } from '@supabase/auth-helpers-remix';
 
 import { redirect } from '@remix-run/node';
-import { FormDataHabit } from './general.server';
+import type { FormDataHabit } from './general.server';
 export const createServerClient = (request: Request) => {
   const response = new Response();
   const serverClient = _createServerClient(
@@ -109,7 +109,6 @@ export async function createHabits(
   newHabits: FormDataHabit[]
 ) {
   const { error } = await serverClient.from('habits').insert(newHabits);
-  console.log(error);
   return error;
 }
 
@@ -129,7 +128,7 @@ export async function getUserData(serverClient: SupabaseClient<any, 'public', an
                 id,
                 name,
                 is_complete,
-                dates_completed (
+                habit_dates_completed (
                     date
                 )
             )

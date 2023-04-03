@@ -19,14 +19,13 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
     <fetcher.Form
       method="post"
       className="space-y-1"
+      action="/dashboard/handle-toggle-habit-completion"
       data-cy="habit"
     >
       <input type="hidden" name="habit_id" value={habitId} />
       <input type="hidden" name="is_complete" value={isComplete.toString()} />
       <button
         type="submit"
-        name="_action"
-        value="toggle_is_complete"
         className={clsx(
           "flex flex-row gap-2",
           isOptimisticallyComplete ? "text-violetDark-11" : "text-mauveDark-12"
