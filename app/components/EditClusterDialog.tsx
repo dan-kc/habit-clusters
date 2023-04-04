@@ -107,7 +107,7 @@ const EditClusterDialog: React.FC<Props> = ({
             <fetcher.Form
               method="post"
               className="space-y-6"
-              action={isNew ? '/dashboard/handle-create-cluster' : '/dashboard/handle-edit-cluster'}
+              action={isNew ? '/api/handle-create-cluster' : '/api/handle-edit-cluster'}
             >
               <fieldset>
                 <input type="hidden" name="cluster_id" value={id} />

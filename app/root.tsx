@@ -59,7 +59,7 @@ export default function App() {
         // Remix recalls active loaders after actions complete
         fetcher.submit(null, {
           method: 'post',
-          action: '/handle-supabase-auth',
+          action: '/api/handle-supabase-auth',
         });
       }
     });

@@ -19,7 +19,7 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
     <fetcher.Form
       method="post"
       className="space-y-1"
-      action="/dashboard/handle-toggle-habit-completion"
+      action="/api/handle-toggle-habit-completion"
       data-cy="habit"
     >
       <input type="hidden" name="habit_id" value={habitId} />
