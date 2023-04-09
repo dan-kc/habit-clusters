@@ -1,20 +1,28 @@
 import InputGroup from '@components/InputGroup';
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect } from 'react';
 import { z } from 'zod';
 import AuthForm from '~/components/AuthForm';
 import useToastStore from '~/components/hooks/useToastStore';
-import { getFormData } from '~/utils/supabase.server';
-import { createServerClient, getServerSession } from '~/utils/supabase.server';
+import { getFormData, getServerSession } from '~/utils/supabase.server';
+import { createServerClient } from '~/utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // Redirect if already logged in
-  const { serverClient } = createServerClient(request);
+
+  const { serverClient, response } = createServerClient(request);
+
+  // Redirect to dashboard if user is logged in
   const session = await getServerSession(serverClient);
+
   if (session) throw redirect('/dashboard');
-  return null;
+
+  return json(
+    {
+      headers: response.headers,
+    }
+  );
 };
 
 export async function action({ request }: ActionArgs) {
@@ -130,10 +138,14 @@ interface ValidationError {
 
 const schema = z
   .object({
-    email: z.string().email({ message: 'Invalid email address' }),
+    email: z.string().email({
+      message: 'Invalid email address',
+    }),
     password: z
       .string()
-      .min(6, { message: 'Password must be 6 or more characters' })
+      .min(6, {
+        message: 'Password must be 6 or more characters',
+      })
       .max(30, {
         message: 'Password must be less than 30 characters',
       }),
@@ -145,15 +157,22 @@ const schema = z
   });
 
 function formatZodErrors(validationErrors: ValidationError) {
-  return Object.keys(validationErrors).reduce((acc, key) => {
-    const val = validationErrors[key as keyof typeof acc];
-    if (val !== undefined && val.length > 0) {
-      acc[key as keyof typeof acc] = val[0];
-    } else {
-      acc[key as keyof typeof acc] = undefined;
+  return Object.keys(validationErrors).reduce(
+    (acc, key) => {
+      const val = validationErrors[key as keyof typeof acc];
+      if (val !== undefined && val.length > 0) {
+        acc[key as keyof typeof acc] = val[0];
+      } else {
+        acc[key as keyof typeof acc] = undefined;
+      }
+      return acc;
+    },
+    {} as {
+      email?: string | undefined;
+      password?: string | undefined;
+      confirm_password?: string | undefined;
     }
-    return acc;
-  }, {} as { email?: string | undefined; password?: string | undefined; confirm_password?: string | undefined });
+  );
 }
 
 function validationError(

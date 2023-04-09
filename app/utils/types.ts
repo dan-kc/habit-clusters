@@ -1,26 +1,13 @@
-export interface Profile {
-  premium: boolean;
-  name: string;
+import { Database } from 'supabase-types';
+
+export type Profile = Database['public']['Tables']['profiles']['Row'] & {
   clusters: Cluster[];
-}
+};
 
-export interface Cluster {
-  id: string;
-  name: string;
-  start_time: string;
-  end_time: string;
+export type Cluster = Database['public']['Tables']['clusters']['Row'] & {
   habits: Habit[];
-}
+};
 
-export interface Habit {
-  id: string;
-  cluster_id: string;
-  name: string;
-  is_complete?: boolean;
-  dates_completed: CompletedDate[]
-}
-
-export interface CompletedDate {
-  habit_id: string;
-  date: string
-}
+export type Habit = Database['public']['Tables']['habits']['Row'] & {
+  habit_dates_completed: Database['public']['Tables']['habit_dates_completed']['Row'][];
+};

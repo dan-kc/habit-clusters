@@ -22,7 +22,6 @@ export async function action({ request }: ActionArgs) {
     // Get user
     const user = await getUser(serverClient);
     const { id: user_id } = user!;
-    console.log(values);
 
     const { cluster_id, cluster_name, start_time, end_time } = values;
 

@@ -1,9 +1,9 @@
-import * as T from "@radix-ui/react-toast";
-import { Outlet } from "@remix-run/react";
-import Toast from "~/components/Toast";
-import { useBrowserClient } from "~/root";
+import * as T from '@radix-ui/react-toast';
+import { Outlet } from '@remix-run/react';
+import Toast from '~/components/Toast';
+import { useBrowserClient } from '~/root';
 
-interface Props { }
+interface Props {}
 
 const Auth: React.FC<Props> = () => {
   const browserClient = useBrowserClient();

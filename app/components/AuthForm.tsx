@@ -1,12 +1,12 @@
-import { Form } from '@remix-run/react'
-import React from 'react'
-import OAuthPanel from './OAuthPanel'
+import { Form } from '@remix-run/react';
+import React from 'react';
+import OAuthPanel from './OAuthPanel';
 
 type Props = {
-  children: React.ReactNode
-  heading: string
-  subheading: string
-}
+  children: React.ReactNode;
+  heading: string;
+  subheading: string;
+};
 
 const AuthForm: React.FC<Props> = ({ children, heading, subheading }) => {
   return (
@@ -16,11 +16,11 @@ const AuthForm: React.FC<Props> = ({ children, heading, subheading }) => {
         method="post"
         className="mx-auto flex w-80 flex-col gap-6"
       >
-        <div className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold">
+        <div className="flex flex-col gap-2" >
+          <h1 className="text-4xl font-bold" >
             {heading}
           </h1>
-          <p className="text-sm text-mauveDark-11">
+          <p className="text-sm text-mauveDark-11" >
             {subheading}
           </p>
         </div>
@@ -28,7 +28,7 @@ const AuthForm: React.FC<Props> = ({ children, heading, subheading }) => {
         <OAuthPanel />
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default AuthForm
+export default AuthForm;

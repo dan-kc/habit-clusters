@@ -65,5 +65,9 @@ export function splitHabits(
     isOldHabitDeleted
   );
   const [keptNewHabits] = splitArrayByIsDeleted(newHabits, isNewHabitDeleted);
-  return { keptOldHabits, deletedOldHabits, keptNewHabits };
+  return {
+    keptOldHabits,
+    deletedOldHabits,
+    keptNewHabits,
+  };
 }

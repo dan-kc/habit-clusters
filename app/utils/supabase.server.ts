@@ -3,9 +3,10 @@ import { createServerClient as _createServerClient } from '@supabase/auth-helper
 
 import { redirect } from '@remix-run/node';
 import type { FormDataHabit } from './general.server';
+import { Database } from 'supabase-types';
 export const createServerClient = (request: Request) => {
   const response = new Response();
-  const serverClient = _createServerClient(
+  const serverClient = _createServerClient<Database>(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
     { request, response }
@@ -31,19 +32,6 @@ export async function getUser(serverClient: SupabaseClient<any, 'public', any>) 
 export async function getFormData(request: Request) {
   return await request.formData();
 }
-export async function toggleIsComplete(
-  serverClient: SupabaseClient<any, 'public', any>,
-  isComplete: FormDataEntryValue,
-  habitId: FormDataEntryValue,
-  userId: FormDataEntryValue
-) {
-  var newToggleValue = isComplete !== 'true';
-  await serverClient
-    .from('habits')
-    .update({ is_complete: newToggleValue, user_id: userId })
-    .eq('id', habitId);
-}
-
 export async function deleteCluster(
   serverClient: SupabaseClient<any, 'public', any>,
   clusterId: FormDataEntryValue
@@ -127,7 +115,6 @@ export async function getUserData(serverClient: SupabaseClient<any, 'public', an
             habits (
                 id,
                 name,
-                is_complete,
                 habit_dates_completed (
                     date
                 )
@@ -135,10 +122,16 @@ export async function getUserData(serverClient: SupabaseClient<any, 'public', an
         )
         `
     )
-    .order('created_at', { foreignTable: 'clusters' })
+    .order('created_at', {
+      foreignTable: 'clusters',
+    })
     .order('name', { foreignTable: 'clusters' })
-    .order('created_at', { foreignTable: 'clusters.habits' })
-    .order('name', { foreignTable: 'clusters.habits' });
+    .order('created_at', {
+      foreignTable: 'clusters.habits',
+    })
+    .order('name', {
+      foreignTable: 'clusters.habits',
+    });
 
   if (error) throw error;
 

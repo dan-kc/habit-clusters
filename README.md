@@ -2,13 +2,18 @@
 
 A simple, yet hilariously overengineered habit checklist webapp that groups habits together by their reward.
 
-Based on my personal habit workflow. 
+Based on my personal habit workflow.
 
 Minimum viable product - work in progress.
 
 ## Todo
 
-- Add tests for github login
+- Rename things
+- Add tests for calendar
+- Stop checking if in time window for previous days
+- Show completed on previous days
+
+- Add collapsed calendar for mobile
 - Add optimistic ui for cluster highlight when all habits are complete
-- Add typesafety
-- Remove is_complete and swap it for a date array
+- Add tests for github login
+- Fix glitch when adding a new habit and typing the name, if you hit enter it deletes it.

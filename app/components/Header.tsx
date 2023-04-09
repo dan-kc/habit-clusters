@@ -1,4 +1,4 @@
-import { useBrowserClient } from "~/root";
+import { useBrowserClient } from '~/root';
 
 interface Props {}
 

@@ -32,7 +32,7 @@ const EditClusterDialog: React.FC<Props> = ({
   const [nameValue, setNameValue] = useState<string>(name);
   const [startTimeValue, setStartTimeValue] = useState<string>(startTime);
   const [endTimeValue, setEndTimeValue] = useState<string>(endTime);
-  const [newHabits, setNewHabits] = useState<HabitType[]>([]);
+  const [newHabits, setNewHabits] = useState<HabitInput[]>([]);
 
   const handleAddHabit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
@@ -41,9 +41,7 @@ const EditClusterDialog: React.FC<Props> = ({
       {
         id: uuidv4(),
         name: '',
-        is_complete: false,
         cluster_id: id,
-        dates_completed: [],
       },
     ]);
   };
@@ -147,7 +145,7 @@ const EditClusterDialog: React.FC<Props> = ({
                 </button>
               </fieldset>
               <fieldset className="flex flex-col gap-2">
-                <label className="text-mauveDark-11">Availibility window </label>
+                <label className="text-mauveDark-11">Availibility window</label>
                 <div className="flex gap-2">
                   <Input
                     name="start_time"
@@ -219,3 +217,9 @@ const EditClusterDialog: React.FC<Props> = ({
 };
 
 export default EditClusterDialog;
+
+interface HabitInput {
+  id: string;
+  name: string;
+  cluster_id: string;
+}

@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
+import { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import {
   Links,
@@ -15,9 +15,10 @@ import type { SupabaseClient } from '@supabase/auth-helpers-remix';
 import { createBrowserClient } from '@supabase/auth-helpers-remix';
 import { useEffect, useState } from 'react';
 import stylesheet from '~/globals.css';
-import { createServerClient } from './utils/supabase.server';
+import { createServerClient, getServerSession } from '@utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
+
   const env = {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
@@ -25,9 +26,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const { serverClient, response } = createServerClient(request);
 
-  const {
-    data: { session },
-  } = await serverClient.auth.getSession();
+  // Redirect to dashboard if user is logged in
+  const session = await getServerSession(serverClient);
 
   return json(
     {
@@ -41,11 +41,14 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
+
   // Get enviroment variables from server
   const { env, session } = useLoaderData();
+
   const [browserClient] = useState(() =>
-    createBrowserClient(env.SUPABASE_URL!, env.SUPABASE_ANON_KEY!)
+    createBrowserClient(env.SUPABASE_URL!, env.SUPABASE_ANON_KEY!) // Only gets called once
   );
+
   const serverAccessToken = session?.access_token;
 
   const fetcher = useFetcher();
@@ -55,8 +58,7 @@ export default function App() {
       data: { subscription },
     } = browserClient.auth.onAuthStateChange((_, session) => {
       if (session?.access_token !== serverAccessToken) {
-        // server and client are out of sync
-        // Remix recalls active loaders after actions complete
+        // Server and client are out of sync so we send an Action to recall the Loaders
         fetcher.submit(null, {
           method: 'post',
           action: '/api/handle-supabase-auth',
@@ -116,4 +118,7 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
+export const links: LinksFunction = () => [{
+  rel: 'stylesheet',
+  href: stylesheet
+}];

@@ -3,6 +3,7 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { Profile } from '@utils/types';
+import Calendar from '~/components/Calendar';
 import ClusterList from '~/components/ClusterList';
 import ComingSoonPanel from '~/components/ComingSoonPanel';
 import Container from '~/components/Container';
@@ -15,13 +16,14 @@ export const loader = async ({ request }: LoaderArgs) => {
     getUser(serverClient), // Redirects if not logged in
     getUserData(serverClient), // Throws if can't get data
   ]);
+  const profile = data[0] as Profile;
 
-  return json(data);
+  return json(profile);
 };
 
 const Dashboard: React.FC = () => {
-  const data = useLoaderData();
-  const { clusters } = data[0] as Profile;
+  const profile = useLoaderData<typeof loader>();
+  const { clusters } = profile;
 
   return (
     <Container>
@@ -29,6 +31,7 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <ClusterList clusters={clusters} />
         <div className="space-y-2">
+          <Calendar />
           {['Tracker', 'To-do list', 'Ban list'].map((panel) => (
             <ComingSoonPanel heading={panel} key={panel} />
           ))}

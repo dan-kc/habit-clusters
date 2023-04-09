@@ -1,19 +1,26 @@
-import type { LoaderArgs } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
 import { Link } from '@remix-run/react';
 import clsx from 'clsx';
 import { useState } from 'react';
 import InputGroup from '@components/InputGroup';
 import { useBrowserClient } from '~/root';
-import { createServerClient, getServerSession } from '~/utils/supabase.server';
 import AuthForm from '~/components/AuthForm';
+import { json, LoaderArgs, redirect } from '@remix-run/node';
+import { createServerClient, getServerSession } from '~/utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // Redirect if already logged in
-  const { serverClient } = createServerClient(request);
+
+  const { serverClient, response } = createServerClient(request);
+
+  // Redirect to dashboard if user is logged in
   const session = await getServerSession(serverClient);
+
   if (session) throw redirect('/dashboard');
-  return null;
+
+  return json(
+    {
+      headers: response.headers,
+    }
+  );
 };
 
 const Index: React.FC = () => {

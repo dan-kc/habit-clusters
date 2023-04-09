@@ -1,20 +1,21 @@
-import { BoxIcon, CheckIcon } from "@radix-ui/react-icons";
-import { useFetcher } from "@remix-run/react";
-import clsx from "clsx";
+import { BoxIcon, CheckIcon } from '@radix-ui/react-icons';
+import { useFetcher } from '@remix-run/react';
+import clsx from 'clsx';
+import { Habit as HabitType } from '~/utils/types';
+import useCalendarStore from './hooks/useCalendarStore';
 
 interface Props {
-  name: string;
-  habitId: string;
-  isComplete: boolean;
+  habit: HabitType;
 }
 
-const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
+const HabitType: React.FC<Props> = ({ habit }) => {
+  const date = useCalendarStore((state) => state.date);
   const fetcher = useFetcher();
   const { state } = fetcher;
-  const formData = fetcher.submission?.formData.get("is_complete");
+  const { name, id, habit_dates_completed } = habit;
+  const isComplete = habit_dates_completed.map((dateObj) => dateObj.date).includes(date);
+  const formData = fetcher.submission?.formData.get('_action');
   const isOptimisticallyComplete = getIsOptimallyComplete(formData, isComplete, state);
-  //TODO: Remove cursor when cursor hovers over text
-
   return (
     <fetcher.Form
       method="post"
@@ -22,13 +23,15 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
       action="/api/handle-toggle-habit-completion"
       data-cy="habit"
     >
-      <input type="hidden" name="habit_id" value={habitId} />
-      <input type="hidden" name="is_complete" value={isComplete.toString()} />
+      <input type="hidden" name="habit_id" value={id} />
+      <input type="hidden" name="date" value={date} />
       <button
+        name="_action"
+        value={isComplete ? 'toggle_completion_off' : 'toggle_completion_on'}
         type="submit"
         className={clsx(
-          "flex flex-row gap-2",
-          isOptimisticallyComplete ? "text-violetDark-11" : "text-mauveDark-12"
+          'flex flex-row gap-2',
+          isOptimisticallyComplete ? 'text-violetDark-11' : 'text-mauveDark-12'
         )}
       >
         {isOptimisticallyComplete ? (
@@ -42,25 +45,25 @@ const Habit: React.FC<Props> = ({ name, isComplete, habitId }) => {
   );
 };
 
-export default Habit;
+export default HabitType;
 
 function getIsOptimallyComplete(
-  actionData: FormDataEntryValue | null | undefined,
+  fetcherData: FormDataEntryValue | null | undefined,
   isCompleteFromLoader: boolean,
-  fetcherState: "idle" | "submitting" | "loading"
+  fetcherState: 'idle' | 'submitting' | 'loading'
 ): boolean {
   let isOptimisticallyComplete: boolean;
   switch (fetcherState) {
-    case "idle": {
+    case 'idle': {
       isOptimisticallyComplete = isCompleteFromLoader;
       break;
     }
-    case "submitting": {
-      isOptimisticallyComplete = actionData === "false";
+    case 'submitting': {
+      isOptimisticallyComplete = fetcherData === 'add';
       break;
     }
-    case "loading": {
-      isOptimisticallyComplete = actionData === "false";
+    case 'loading': {
+      isOptimisticallyComplete = fetcherData === 'add';
       break;
     }
   }
