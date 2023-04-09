@@ -59,11 +59,11 @@ function getIsOptimallyComplete(
       break;
     }
     case 'submitting': {
-      isOptimisticallyComplete = fetcherData === 'add';
+      isOptimisticallyComplete = fetcherData === 'toggle_completion_on';
       break;
     }
     case 'loading': {
-      isOptimisticallyComplete = fetcherData === 'add';
+      isOptimisticallyComplete = fetcherData === 'toggle_completion_on';
       break;
     }
   }
