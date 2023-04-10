@@ -2,13 +2,13 @@ import { BoxIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useFetcher } from '@remix-run/react';
 import clsx from 'clsx';
 import { Habit as HabitType } from '~/utils/types';
-import useCalendarStore from './hooks/useCalendarStore';
+import useCalendarStore from '@hooks/useCalendarStore';
 
 interface Props {
   habit: HabitType;
 }
 
-const HabitType: React.FC<Props> = ({ habit }) => {
+const Habit: React.FC<Props> = ({ habit }) => {
   const date = useCalendarStore((state) => state.date);
   const fetcher = useFetcher();
   const { state } = fetcher;
@@ -45,7 +45,7 @@ const HabitType: React.FC<Props> = ({ habit }) => {
   );
 };
 
-export default HabitType;
+export default Habit;
 
 function getIsOptimallyComplete(
   fetcherData: FormDataEntryValue | null | undefined,

@@ -33,6 +33,7 @@ const Cluster: React.FC<Props> = ({ cluster }) => {
   const clusterAvailibility = getClusterAvailibility(currentTime, timeWindow);
 
   const active = clusterAvailibility.period === 'Within window';
+  const inPast = isInPast(date);
 
   return (
     <article
@@ -91,16 +92,24 @@ const Cluster: React.FC<Props> = ({ cluster }) => {
       {open && (
         <div className="px-6">
           {habits.map((habit) => {
-            return <Habit habit={habit} key={id} />;
+            return <Habit habit={habit} key={habit.id} />;
           })}
           <p
             className="flex flex-row justify-end py-2 text-sm"
             data-cy="availability_window"
           >
-            Available between&nbsp;
-            <span className="text-violetDark-11">{removeSeconds(start_time)}</span>
-            &nbsp; and&nbsp;
-            <span className="text-violetDark-11">{removeSeconds(end_time)}</span>
+            {
+              inPast ?
+                <>
+                  &nbsp;
+                </> :
+                <>
+                  Available between&nbsp;
+                  <span className="text-violetDark-11">{removeSeconds(start_time)}</span>
+                  &nbsp; and&nbsp;
+                  <span className="text-violetDark-11">{removeSeconds(end_time)}</span>
+                </>
+            }
           </p>
         </div>
       )}
@@ -119,6 +128,24 @@ function getNumberOfCompletedHabits(habits: HabitType[], date: string): number {
     });
   });
   return completedHabits;
+}
+
+function isInPast(selectedDate: string): boolean {
+  const currentDate = new Date()
+
+  const currentDay = currentDate.getDate()
+  const currentMonth = currentDate.getMonth() + 1
+  const currentYear = currentDate.getFullYear()
+
+  const selectedDay = parseInt(selectedDate.slice(8, 10))
+  const selectedMonth = parseInt(selectedDate.slice(5, 7))
+  const selectedYear = parseInt(selectedDate.slice(0, 4))
+
+  if (selectedYear < currentYear) return true
+  if ((selectedYear === currentYear) && (selectedMonth < currentMonth)) return true
+  if (((selectedYear === currentYear) && (selectedMonth === currentMonth) && (selectedDay < currentDay))) return true
+
+  return false
 }
 
 function secondsSinceMidnight(): number {
