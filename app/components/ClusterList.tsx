@@ -15,7 +15,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
   return (
     <section className="flex flex-col gap-2">
       {clusters.map((cluster) => (
-        <Cluster cluster={cluster} />
+        <Cluster cluster={cluster} key={cluster.id} />
       ))}
       <Dialog.Root open={open} onOpenChange={setOpen}>
         {clusters.length === 0 ? (
