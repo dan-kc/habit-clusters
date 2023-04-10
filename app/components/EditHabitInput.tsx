@@ -18,6 +18,10 @@ const EditHabitInput: React.FC<Props> = ({ id, initialValue, isNew = false }) =>
     setIsDeleted((state) => !state);
   }
 
+  function handleFakeButtonClick(e: React.FormEvent<HTMLButtonElement>) {
+    e.preventDefault();
+  }
+
   return (
     <div className={clsx('relative', isDeleted && 'hidden')}>
       <input type="hidden" name={isNew ? 'new_habit_id' : 'old_habit_id'} value={id} />
@@ -30,6 +34,10 @@ const EditHabitInput: React.FC<Props> = ({ id, initialValue, isNew = false }) =>
         onChange={(e: React.FormEvent<HTMLInputElement>) =>
           setNameValue(e.currentTarget.value)
         }
+      />
+      <button
+        onClick={handleFakeButtonClick}
+        aria-hidden={true}
       />
       {!isDeleted && (
         <button
