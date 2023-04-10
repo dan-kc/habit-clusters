@@ -4,10 +4,10 @@ import { json } from '@remix-run/node';
 import { Link, useActionData, useNavigation } from '@remix-run/react';
 import { useEffect } from 'react';
 import { z } from 'zod';
-import AuthForm from '~/components/AuthForm';
-import useToastStore from '~/components/hooks/useToastStore';
-import { getFormData, getServerSession } from '~/utils/supabase.server';
-import { createServerClient } from '~/utils/supabase.server';
+import AuthForm from '@components/AuthForm';
+import useToastStore from '@stores/useToastStore';
+import { getFormData, getServerSession } from '@utils/supabase.server';
+import { createServerClient } from '@utils/supabase.server';
 
 export const loader = async ({ request }: LoaderArgs) => {
 

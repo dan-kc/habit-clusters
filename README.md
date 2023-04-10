@@ -8,7 +8,6 @@ Minimum viable product - work in progress.
 
 ## Todo
 
-- Stop checking if in time window for previous days
 - Show completed on previous days
 
 - Add collapsed calendar for mobile

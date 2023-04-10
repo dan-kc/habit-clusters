@@ -22,7 +22,7 @@ const ClusterList: React.FC<Props> = ({ clusters }) => {
           <Dialog.Trigger asChild>
             <button
               data-cy="add_cluster"
-              className="flex justify-center rounded-md border border-violetDark-6 bg-violetDark-3 py-10 text-center text-2xl font-semibold  text-violetDark-11"
+              className="flex justify-center rounded-md hover:border-violetDark-7 hover:bg-violetDark-4 border border-violetDark-6 bg-violetDark-3 py-10 text-center text-2xl font-semibold  text-violetDark-11"
             >
               Add your first cluster!
             </button>

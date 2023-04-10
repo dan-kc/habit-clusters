@@ -2,7 +2,7 @@ import { BoxIcon, CheckIcon } from '@radix-ui/react-icons';
 import { useFetcher } from '@remix-run/react';
 import clsx from 'clsx';
 import { Habit as HabitType } from '~/utils/types';
-import useCalendarStore from '@hooks/useCalendarStore';
+import useCalendarStore from '@stores/useCalendarStore';
 
 interface Props {
   habit: HabitType;
@@ -30,7 +30,7 @@ const Habit: React.FC<Props> = ({ habit }) => {
         value={isComplete ? 'toggle_completion_off' : 'toggle_completion_on'}
         type="submit"
         className={clsx(
-          'flex flex-row gap-2',
+          'flex flex-row gap-2 items-center',
           isOptimisticallyComplete ? 'text-violetDark-11' : 'text-mauveDark-12'
         )}
       >

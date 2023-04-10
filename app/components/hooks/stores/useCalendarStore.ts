@@ -6,7 +6,6 @@ interface Store {
 }
 
 const currentDate = new Date().toISOString().slice(0, 10);
-
 const useCalendarStore = create<Store>((set) => ({
   date: currentDate,
   setDate: (date: string) => set({ date: date }),

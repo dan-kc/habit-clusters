@@ -5,7 +5,7 @@ import { Cluster as ClusterType, Habit as HabitType } from '@utils/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import ClusterDialog from '@components/ClusterDialog';
 import Habit from './Habit';
-import useCalendarStore from './hooks/useCalendarStore';
+import useCalendarStore from '@stores/useCalendarStore';
 
 interface Props {
   cluster: ClusterType;

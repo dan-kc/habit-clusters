@@ -28,10 +28,10 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Header />
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 py-10">
+        <Calendar />
         <ClusterList clusters={clusters} />
         <div className="space-y-2">
-          <Calendar />
           {['Tracker', 'To-do list', 'Ban list'].map((panel) => (
             <ComingSoonPanel heading={panel} key={panel} />
           ))}

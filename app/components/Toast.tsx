@@ -1,7 +1,7 @@
 import * as T from '@radix-ui/react-toast';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { AnimatePresence, motion } from 'framer-motion';
-import useToastStore from '@components/hooks/useToastStore';
+import useToastStore from '@stores/useToastStore';
 import { Link } from '@remix-run/react';
 
 export const Toast = () => {

@@ -1,7 +1,15 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "remix.env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2019"
+    ],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -13,10 +21,21 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["app/*"],
-      "@components/*": ["app/components/*"],
-      "@hooks/*": ["app/components/hooks/*"],
-      "@utils/*": ["app/utils/*"]
+      "~/*": [
+        "app/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@hooks/*": [
+        "app/components/hooks/*"
+      ],
+      "@stores/*": [
+        "app/components/hooks/stores/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ]
     },
     "noEmit": true
   }

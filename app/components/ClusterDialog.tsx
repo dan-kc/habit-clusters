@@ -92,15 +92,15 @@ const EditClusterDialog: React.FC<Props> = ({
             )}
           >
             <Dialog.Title className="text-xl font-semibold">
-              {isNew ? (
+              {isNew ?
                 <>
                   Create <span className="text-violetDark-11">New Cluster</span>
                 </>
-              ) : (
+                :
                 <>
                   Edit <span className="text-violetDark-11">Cluster</span>
                 </>
-              )}
+              }
             </Dialog.Title>
             <fetcher.Form
               method="post"
