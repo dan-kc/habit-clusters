@@ -48,7 +48,7 @@ const Cluster: React.FC<Props> = ({ cluster }) => {
       <div className={clsx(!active && 'opacity-50')}>
         <div className={clsx('flex w-full flex-row justify-between')}>
           <div className="flex flex-row gap-2 pl-4">
-            <h2 className="self-center text-xl font-semibold">{name}</h2>
+            <h2 className="self-center text-xl font-semibold whitespace-nowrap">{name}</h2>
             {open ? (
               <Dialog.Root open={openSettings} onOpenChange={setOpenSettings}>
                 <Dialog.Trigger asChild>

@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Header />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 py-10">
+      <div className="grid grid-cols-1 gap-4 md:gap-10 md:grid-cols-2 py-10">
         <Calendar />
         <ClusterList clusters={clusters} />
         <div className="space-y-2">

@@ -1,13 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
-import useCalendarStore from './hooks/useCalendarStore';
+import useCalendarStore from '@stores/useCalendarStore';
 
 const Calendar: React.FC = () => {
   return (
-    <>
+    <div className='pb-10'>
       <MonthPicker />
       <DayPicker />
-    </>
+    </div>
   );
 };
 
@@ -21,7 +21,7 @@ const MonthPicker: React.FC = () => {
   const firstDateOfPrevMonth = getFirstDayOfRelativeMonth(date, -1);
   const firstDateOfNextMonth = getFirstDayOfRelativeMonth(date, 1);
   return (
-    <div className="mx-4 flex items-center justify-between mb-4">
+    <div className="flex items-center justify-between mb-4">
       <button
         className="rounded-full p-2 hover:bg-mauveDark-3"
         aria-label='go-to-prev-month'
@@ -76,16 +76,16 @@ const DayPicker: React.FC = () => {
       <DayLegend />
       {combinedMonthsArray.map((month, index) => {
         const isSelectedMonth = index === 1;
-        return month.map((day) => {
-          const isMatchingDay = selectedDate === day;
-          const isCurrentDay = currentDate === day;
+        return month.map((date) => {
+          const isMatchingDay = selectedDate === date;
+          const isCurrentDay = currentDate === date;
           return (
             <button
-              onClick={() => setSelectedDate(day)}
+              onClick={() => setSelectedDate(date)}
               data-cy={isMatchingDay && isSelectedMonth ? "selected" : "notSelected"}
-              key={day}
+              key={date}
               className={clsx(
-                'flex aspect-square w-10 items-center justify-center rounded-full border text-sm sm:w-14 sm:text-lg md:w-12 lg:w-14',
+                'flex aspect-square w-10 items-center justify-center rounded-full border text-sm sm:w-14 sm:text-lg md:w-10 lg:w-12',
                 isSelectedMonth &&
                 isMatchingDay &&
                 'border-mauveDark-6 bg-mauveDark-4 text-mauveDark-12',
@@ -98,7 +98,7 @@ const DayPicker: React.FC = () => {
                 'border-orangeDark-6 bg-orangeDark-3 text-orangeDark-11 hover:border-orangeDark-7 hover:bg-orangeDark-4'
               )}
             >
-              {parseInt(day.slice(8, 10))}
+              {parseInt(date.slice(8, 10))}
             </button>
           );
         });

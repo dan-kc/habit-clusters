@@ -16,6 +16,7 @@ import { createBrowserClient } from '@supabase/auth-helpers-remix';
 import { useEffect, useState } from 'react';
 import stylesheet from '~/globals.css';
 import { createServerClient, getServerSession } from '@utils/supabase.server';
+import useUpdateDeviceMode from './components/hooks/useUpdateDeviceMode';
 
 export const loader = async ({ request }: LoaderArgs) => {
 
@@ -70,6 +71,8 @@ export default function App() {
       subscription.unsubscribe();
     };
   }, [serverAccessToken, browserClient]);
+
+  useUpdateDeviceMode()
 
   return (
     <html lang="en">
