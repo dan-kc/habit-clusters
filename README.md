@@ -21,6 +21,8 @@ Other than 'Coffee' and 'Food', I personally have clusters for 'Video Games' and
 Give it a go, let me know what clusters you create!
 
 ## To-do
+- Fix issue where the user occasionally gets a 404 error on login
 - Add collapsed calendar for mobile
 - Add optimistic UI for the cluster highlight when all habits are complete
 - Add tests for Github login
+
